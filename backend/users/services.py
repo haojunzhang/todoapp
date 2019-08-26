@@ -8,11 +8,7 @@ from core.models import AutoPubIDField
 from core.execptions.otp import OtpLost, OtpInvalid
 from core.execptions.user import UserAlreadyExist
 
-from .models import TodoUser
-
-
-def generate_user_token():
-    return secrets.token_hex()
+from .models import TodoUser, generate_user_token
 
 
 class UserService:
