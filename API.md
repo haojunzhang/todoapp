@@ -118,7 +118,7 @@ X-TODO-SIGNATURE (ServerSign)
 ```
 {
     "user_id": "xxx",
-    "user_token": "xxx",
+    "email": "xxx",
 }
 ```
 ***
