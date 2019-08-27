@@ -1,11 +1,11 @@
-from .base import MyException
+from .base import BaseException
 
 
-class OtpLost(MyException):
+class OtpLost(BaseException):
     code = 'otp_lost'
     msg = 'otp expire or not exist'
 
 
-class OtpInvalid(MyException):
+class OtpInvalid(BaseException):
     code = 'otp_invalid'
     msg = 'otp invalid'

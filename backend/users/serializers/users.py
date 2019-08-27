@@ -1,5 +1,3 @@
-from users.models import MyUser
-
 from rest_framework import serializers
 
 from users.services import UserService

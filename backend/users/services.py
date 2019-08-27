@@ -5,8 +5,8 @@ from django.core.cache import cache
 from django.db.models import Q
 
 from core.models import AutoPubIDField
-from core.execptions.otp import OtpLost, OtpInvalid
-from core.execptions.user import UserAlreadyExist
+from core.exceptions.otp import OtpLost, OtpInvalid
+from core.exceptions.user import UserAlreadyExist
 
 from .models import TodoUser, generate_user_token
 

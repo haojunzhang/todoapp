@@ -1,6 +1,6 @@
 from rest_framework import status
 
-class MyException(Exception):
+class BaseException(Exception):
 
     # default is 400
     http_code = status.HTTP_400_BAD_REQUEST

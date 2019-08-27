@@ -3,7 +3,7 @@ from django.http import Http404
 from rest_framework import exceptions
 from rest_framework.response import Response
 
-from core.execptions.base import MyException
+from core.exceptions.base import BaseException
 
 
 def recursive_transform_error_detail(data, upper_data=None, key=None):
@@ -29,7 +29,7 @@ def recursive_transform_error_detail(data, upper_data=None, key=None):
 
 
 def my_exception_handler(exc, context):
-    if isinstance(exc, MyException):
+    if isinstance(exc, BaseException):
         return Response(
             data={
                 'http_code': exc.http_code,

@@ -1,16 +1,16 @@
 from rest_framework import status
 
-from .base import MyException
+from .base import BaseException
 
 
-class LoginFailed(MyException):
+class LoginFailed(BaseException):
 
     http_code = status.HTTP_401_UNAUTHORIZED
     code = 'login_failed'
     msg = 'login failed'
 
 
-class UserAlreadyExist(MyException):
+class UserAlreadyExist(BaseException):
 
     http_code = status.HTTP_409_CONFLICT
     code = 'user_already_exists'

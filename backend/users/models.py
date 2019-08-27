@@ -10,6 +10,10 @@ def generate_user_token():
     return secrets.token_hex()
 
 
+TYPE_APP_USER = 'AppUser'
+TYPE_TODO_USER = 'TodoUser'
+
+
 class AppUser(CreatedAndModifiedMixin):
     class Meta:
         verbose_name_plural = 'app_users'

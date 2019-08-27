@@ -10,7 +10,7 @@ from .models import TodoUser
 
 from .services import OtpService, UserService
 
-from core.execptions.user import LoginFailed
+from core.exceptions.user import LoginFailed
 
 
 def send_otp(request):
