@@ -1,11 +1,13 @@
 import json
 import logging
+from base64 import b64encode
 
+from Crypto.Hash import SHA256
 from django.utils.deprecation import MiddlewareMixin
 
 from core.cache import get_user_cache_object
 from core.responses import ResponseInvalidToken, ResponseInvalidSignature, ResponseInvalidTimeStamp
-from core.key_utils import verify
+from core.key_utils import verify, rsa_import_key_string
 from core.time_utils import get_timestamp
 from users.models import TYPE_APP_USER, TYPE_TODO_USER, TodoUser, AppUser
 
@@ -78,10 +80,11 @@ class VerifySignatureMiddleware(MiddlewareMixin):
             get_dict = dict(request.GET)
             sorted_get_dict = {k: v[0] for k, v in sorted(get_dict.items())}
             sorted_query_string = "&".join(f"{k}={v}" for k, v in sorted_get_dict.items())
+            # msg_hash = SHA256.new(b64encode(sorted_query_string.encode()))
             text = sorted_query_string
-
         else:
-            text = request.body
+            # msg_hash = SHA256.new(b64encode(request.body))
+            text = request.body.decode()
 
-        if not verify(text, signature, request.user_cache_object['user_sign_pub_key']):
+        if not verify(text, signature, rsa_import_key_string(request.user_cache_object['user_sign_pub_key'])):
             return ResponseInvalidSignature

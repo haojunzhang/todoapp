@@ -11,8 +11,17 @@ def rsa_import_key_pem(file_path):
     return rsa_object
 
 
+def rsa_import_key_string(rsa_key_string: str):
+    rsa_key_object = RSA.import_key(
+        f'-----BEGIN PUBLIC KEY-----\n{rsa_key_string}\n-----END PUBLIC KEY-----'
+    )
+    return rsa_key_object
+
+
 APP_USER_SIGN_PRI_KEY = rsa_import_key_pem('keys/app_user_sign_pri.pem')
 APP_USER_SIGN_PUB_KEY = rsa_import_key_pem('keys/app_user_sign_pub.pem')
+APP_USER_ENC_PRI_KEY = rsa_import_key_pem('keys/app_user_enc_pri.pem')
+APP_USER_ENC_PUB_KEY = rsa_import_key_pem('keys/app_user_enc_pub.pem')
 
 
 def encrypt(text, pub_key):
@@ -46,7 +55,6 @@ def verify(text, signature, pub_key):
         return Signature_pkcs1_v1_5.new(pub_key).verify(SHA256.new(b64encode(text.encode())), b64decode(signature))
     except (ValueError, TypeError):
         return False
-
 
 # text = 'abc'
 # e = en(text)

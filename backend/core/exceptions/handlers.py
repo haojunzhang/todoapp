@@ -28,7 +28,7 @@ def recursive_transform_error_detail(data, upper_data=None, key=None):
             upper_data[key] = result_dict
 
 
-def my_exception_handler(exc, context):
+def exception_handler(exc, context):
     if isinstance(exc, BaseException):
         return Response(
             data={

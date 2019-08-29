@@ -57,6 +57,10 @@ MIDDLEWARE = [
 
 ]
 
+REST_FRAMEWORK = {
+    'EXCEPTION_HANDLER': 'core.exceptions.handlers.exception_handler'
+}
+
 ROOT_URLCONF = 'core.urls'
 
 TEMPLATES = [
