@@ -1,25 +1,25 @@
 package com.example.todoapp.data.network.todoapp.request;
 
 public class LoginRequest {
-    private String uts;
-    private String phone;
+    private String ts;
+    private String email;
     private String password;
-    private String sign_public_key;
+    private String sign_pub_key;
 
-    public String getUts() {
-        return uts;
+    public String getTs() {
+        return ts;
     }
 
-    public void setUts(String uts) {
-        this.uts = uts;
+    public void setTs(String ts) {
+        this.ts = ts;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getEmail() {
+        return email;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -30,11 +30,11 @@ public class LoginRequest {
         this.password = password;
     }
 
-    public String getSign_public_key() {
-        return sign_public_key;
+    public String getSign_pub_key() {
+        return sign_pub_key;
     }
 
-    public void setSign_public_key(String sign_public_key) {
-        this.sign_public_key = sign_public_key;
+    public void setSign_pub_key(String sign_pub_key) {
+        this.sign_pub_key = sign_pub_key;
     }
 }

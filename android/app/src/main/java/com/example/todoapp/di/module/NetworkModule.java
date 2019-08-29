@@ -1,6 +1,7 @@
 package com.example.todoapp.di.module;
 
 import com.example.todoapp.data.network.todoapp.ITodoService;
+import com.example.todoapp.utils.NativeUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -26,7 +27,7 @@ public class NetworkModule {
     @Provides
     Retrofit provideRetrofit(OkHttpClient mOkHttpClient){
         return new Retrofit.Builder()
-                .baseUrl("http://127.0.0.1/")
+                .baseUrl(NativeUtils.getString(NativeUtils.URL))
                 .client(mOkHttpClient)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())

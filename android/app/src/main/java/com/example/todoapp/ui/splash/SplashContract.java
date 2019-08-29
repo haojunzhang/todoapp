@@ -5,8 +5,14 @@ import com.example.todoapp.ui.base.BaseView;
 
 public interface SplashContract {
     interface View extends BaseView {
+        void openMainActivity();
+
+        void openLoginActivity();
+
+        void finishActivity();
     }
 
     interface Presenter extends BasePresenter {
+        void checkLoginStatus();
     }
 }

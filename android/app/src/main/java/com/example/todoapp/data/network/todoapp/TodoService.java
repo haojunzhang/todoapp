@@ -8,6 +8,7 @@ import com.example.todoapp.data.network.todoapp.request.SignUpRequest;
 import com.example.todoapp.data.repository.keystore.KeyStoreRepository;
 import com.example.todoapp.utils.DateTimeUtils;
 import com.example.todoapp.utils.LogUtils;
+import com.example.todoapp.utils.NativeUtils;
 import com.example.todoapp.utils.PrefUtils;
 import com.example.todoapp.utils.SignatureUtils;
 import com.google.gson.GsonBuilder;
@@ -63,15 +64,15 @@ public class TodoService {
     }
 
     private String getAppSignPrivate() {
-        return "";
+        return NativeUtils.getString(NativeUtils.APP_USER_SIGN_PRI_KEY);
     }
 
     private String getAppEncPublic() {
-        return "";
+        return NativeUtils.getString(NativeUtils.APP_USER_ENC_PUB_KEY);
     }
 
     private String getAppUserToken() {
-        return "";
+        return NativeUtils.getString(NativeUtils.APP_USER_TOKEN);
     }
 
     private String getUserId() {
@@ -131,10 +132,10 @@ public class TodoService {
 
     public void login(String phone, String password, CallBackUtil callback) {
         LoginRequest request = new LoginRequest();
-        request.setUts(DateTimeUtils.getUnixTime());
-        request.setPhone(phone);
+        request.setTs(DateTimeUtils.getUnixTime());
+        request.setEmail(phone);
         request.setPassword(SignatureUtils.encryptByPublicKey(password, getAppEncPublic()));
-        request.setSign_public_key(getUserPublicKey());
+        request.setSign_pub_key(getUserPublicKey());
 
         mService.login(getHeaders(
                 TodoConst.User.Type.APP_USER,

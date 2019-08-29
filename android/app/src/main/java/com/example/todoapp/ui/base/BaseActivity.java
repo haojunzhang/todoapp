@@ -8,6 +8,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.todoapp.R;
+import com.example.todoapp.data.network.todoapp.error.ErrorResponse;
+import com.example.todoapp.utils.ErrorCodeUtils;
+import com.example.todoapp.utils.LogUtils;
 
 import butterknife.ButterKnife;
 import dagger.android.AndroidInjection;
@@ -44,5 +47,18 @@ public class BaseActivity extends AppCompatActivity implements BaseView{
         if (loadingDialog != null && loadingDialog.isShowing() && !isFinishing()) {
             loadingDialog.dismiss();
         }
+    }
+
+    @Override
+    public void handleTodoPocketServiceError(Throwable throwable, ErrorResponse errorResponse) {
+        dismissLoadingView();
+        String code = ErrorCodeUtils.getCode(throwable, errorResponse);
+        String message = ErrorCodeUtils.getMessage(this, code, throwable, errorResponse);
+        LogUtils.d("code:"+code);
+    }
+
+    @Override
+    public void finishActivity() {
+        finish();
     }
 }

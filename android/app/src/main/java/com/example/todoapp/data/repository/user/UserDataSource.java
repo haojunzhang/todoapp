@@ -19,7 +19,7 @@ public interface UserDataSource {
         void onLogin(String userId, String userToken);
     }
 
-    void login(String phone, String password, LoginCallback callback);
+    void login(String email, String password, LoginCallback callback);
 
 
 
