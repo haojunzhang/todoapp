@@ -33,36 +33,29 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void login(String email, String password) {
-        LogUtils.d("1");
         new Thread(() -> {
-            LogUtils.d("2");
             KeyPair keyPair = SignatureUtils.generateRSAKeyPair();
             if (keyPair != null) {
-                LogUtils.d("3");
                 // 重新產生Pref的加解密key
                 String[] ivAndAESKey = mKeyStoreRepository.generateKeyStoreRSAAndIVAndAESKey();
                 mAppRepository.setIV(ivAndAESKey[0]);
                 mAppRepository.setAESKey(ivAndAESKey[1]);
                 mKeyStoreRepository.setIV(ivAndAESKey[0]);
                 mKeyStoreRepository.setAESKey(ivAndAESKey[1]);
-                LogUtils.d("4");
 
                 // 重新產生公私鑰
                 String pri = SignatureUtils.getPrivateKeyString(keyPair);
                 String pub = SignatureUtils.getPublicKeyString(keyPair);
                 mAppRepository.setUserPrivateKey(pri);
                 mAppRepository.setUserPublicKey(pub);
-                LogUtils.d("5");
 
                 new Handler(Looper.getMainLooper()).post(() -> {
                     // in main thread
-                    LogUtils.d("6");
 
                     mUserRepository.login(email, password, new UserDataSource.LoginCallback() {
                         @Override
                         public void onLogin(String userId, String userToken) {
                             mView.dismissLoadingView();
-                            LogUtils.d("7");
 
                             // 存Id, Token
                             mUserRepository.setUserId(userId);
@@ -79,10 +72,6 @@ public class LoginPresenter implements LoginContract.Presenter {
                         @Override
                         public void onError(Throwable throwable, ErrorResponse errorResponse) {
                             mView.handleTodoPocketServiceError(throwable, errorResponse);
-                            if (throwable != null){
-                                throwable.printStackTrace();
-                            }
-                            LogUtils.d("8");
                         }
                     });
                 });
