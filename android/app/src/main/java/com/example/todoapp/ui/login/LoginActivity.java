@@ -7,6 +7,7 @@ import android.widget.EditText;
 
 import com.example.todoapp.R;
 import com.example.todoapp.ui.base.BaseActivity;
+import com.example.todoapp.ui.forgotpassword.ForgotPasswordActivity;
 import com.example.todoapp.ui.main.MainActivity;
 import com.example.todoapp.ui.signup.SignUpActivity;
 
@@ -43,6 +44,11 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     @OnClick(R.id.btnSignUp)
     public void openSignUpActivity() {
         startActivity(new Intent(this, SignUpActivity.class));
+    }
+
+    @OnClick(R.id.btnForgotPassword)
+    public void openForgotPasswordActivity() {
+        startActivity(new Intent(this, ForgotPasswordActivity.class));
     }
 
     @Override

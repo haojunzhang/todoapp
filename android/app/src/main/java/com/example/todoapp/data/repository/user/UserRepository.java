@@ -95,6 +95,11 @@ public class UserRepository implements UserDataSource {
     }
 
     @Override
+    public void verifyEmail(String email, VerifyEmailCallback callback) {
+        mUserRemoteDataSource.verifyEmail(email, callback);
+    }
+
+    @Override
     public void sendOtp(String email, SendOtpCallback callback) {
         mUserRemoteDataSource.sendOtp(email, callback);
     }

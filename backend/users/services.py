@@ -32,7 +32,7 @@ class UserService:
 
         # check exist
         if TodoUser.objects.filter(
-                Q(email=fields.get('email')) | Q(user_sign_pub_key=fields.get('user_sign_pub_key'))).count() > 0:
+                Q(email=fields.get('email')) | Q(user_sign_pub_key=fields.get('user_sign_pub_key'))).exists():
             raise UserAlreadyExist
 
         user = TodoUser(**fields)
@@ -44,13 +44,13 @@ class UserService:
     def set_login(user):
         api_token = generate_user_token()
         user.api_token = api_token
-        user.save()
+        user.save(update_fields=['api_token'])
         return api_token
 
     @staticmethod
     def logout(user):
         user.api_token = None
-        user.save()
+        user.save(update_fields=['api_token'])
 
 
 class OtpService:

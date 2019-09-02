@@ -1,4 +1,4 @@
 package com.example.todoapp.data.network.todoapp.response;
 
-public class ResendOTPCodeResponse {
+public class ResetPasswordResponse {
 }

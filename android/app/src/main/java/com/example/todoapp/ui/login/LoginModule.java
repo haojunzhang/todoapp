@@ -10,6 +10,6 @@ public abstract class LoginModule {
     abstract LoginContract.Presenter provideLoginPresenter(LoginPresenter mLoginPresenter);
 
     @Binds
-    abstract LoginContract.View provideLoginView(LoginActivity homeActivity);
+    abstract LoginContract.View provideLoginView(LoginActivity mLoginActivity);
 
 }

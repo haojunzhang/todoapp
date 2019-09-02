@@ -27,4 +27,9 @@
         android:id="@+id/btnSignUp"
         style="@style/AppTheme.Widget.TextView"
         android:text="@string/sign_up" />
+
+    <TextView
+        android:id="@+id/btnForgotPassword"
+        style="@style/AppTheme.Widget.TextView"
+        android:text="@string/forgot_password" />
 </LinearLayout>

@@ -37,6 +37,7 @@ class LoginSerializer(serializers.Serializer):
 
         return decrypted_value
 
+
 class SignUpSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
     password = serializers.CharField(required=True)
@@ -59,3 +60,24 @@ class SignUpSerializer(serializers.Serializer):
     def create(self, validated_data):
         user = UserService.create_user(**validated_data)
         return user
+
+
+class VerifyEmailSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
+
+    def validate_email(self, value):
+        if '@' not in value:
+            raise serializers.ValidationError('email format is not valid')
+        return value
+
+class ResetPasswordSerializer(serializers.Serializer):
+    password = serializers.CharField(required=True)
+    otp_id = serializers.CharField(required=True)
+    otp = serializers.CharField(required=True)
+
+    def validate_password(self, value):
+        decrypted_value = decrypt(value, APP_USER_ENC_PRI_KEY)
+        if not decrypted_value:
+            raise serializers.ValidationError('password is not valid')
+
+        return decrypted_value

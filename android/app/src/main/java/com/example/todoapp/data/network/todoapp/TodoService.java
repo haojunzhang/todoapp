@@ -5,6 +5,7 @@ import com.example.todoapp.data.network.todoapp.request.LoginRequest;
 import com.example.todoapp.data.network.todoapp.request.ResetPasswordRequest;
 import com.example.todoapp.data.network.todoapp.request.SendOtpRequest;
 import com.example.todoapp.data.network.todoapp.request.SignUpRequest;
+import com.example.todoapp.data.network.todoapp.request.VerifyEmailRequest;
 import com.example.todoapp.data.repository.keystore.KeyStoreRepository;
 import com.example.todoapp.utils.DateTimeUtils;
 import com.example.todoapp.utils.LogUtils;
@@ -156,6 +157,18 @@ public class TodoService {
                 TodoConst.User.Type.TODO_USER,
                 userToken,
                 getSignature(params, userPrivateKey)), uts).enqueue(callback);
+    }
+
+    public void verifyEmail(String email, CallBackUtil callback) {
+        VerifyEmailRequest request = new VerifyEmailRequest();
+        request.setTs(DateTimeUtils.getUnixTime());
+        request.setEmail(email);
+
+        mService.verifyEmail(getHeaders(
+                TodoConst.User.Type.APP_USER,
+                getAppUserToken(),
+                getSignature(request, getAppSignPrivate())
+        ), request).enqueue(callback);
     }
 
     public void sendOtp(String email, CallBackUtil callback) {

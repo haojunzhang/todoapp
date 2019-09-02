@@ -3,7 +3,7 @@
 ## User
 ### 發送OTP
 ```
-POST http://domain/otp/
+POST http://domain/otps/
 X-TODO-TOKEN (AppToken)
 X-TODO-SIGNATURE (AppSign)
 ```
@@ -86,7 +86,7 @@ X-TODO-SIGNATURE (ServerSign)
 ***
 ### 登出
 ```
-DELETE http://domain/users/user-token/
+DELETE http://domain/users/user_token/
 X-TODO-TOKEN (UserToken)
 X-TODO-SIGNATURE (UserSign)
 ```
@@ -124,7 +124,7 @@ X-TODO-SIGNATURE (ServerSign)
 ***
 ### 重設密碼
 ```
-PUT http://domain/users/reset-password/
+PUT http://domain/users/reset_password/
 X-TODO-TOKEN (AppToken)
 X-TODO-SIGNATURE (AppSign)
 ```

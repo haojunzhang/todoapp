@@ -65,6 +65,11 @@ public class UserPrefDataSource implements UserDataSource {
     }
 
     @Override
+    public void verifyEmail(String email, VerifyEmailCallback callback) {
+        // do nothing
+    }
+
+    @Override
     public void sendOtp(String email, SendOtpCallback callback) {
         // do nothing
     }

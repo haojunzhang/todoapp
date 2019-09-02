@@ -1,13 +1,16 @@
 package com.example.todoapp.data.repository.user;
 
 import com.example.todoapp.data.network.todoapp.CallBackUtil;
+import com.example.todoapp.data.network.todoapp.request.ResetPasswordRequest;
 import com.example.todoapp.data.network.todoapp.response.ChangePasswordResponse;
 import com.example.todoapp.data.network.todoapp.response.LoginResponse;
 import com.example.todoapp.data.network.todoapp.response.LogoutResponse;
 import com.example.todoapp.data.network.todoapp.TodoService;
 import com.example.todoapp.data.network.todoapp.error.ErrorResponse;
-import com.example.todoapp.data.network.todoapp.response.SendOTPCodeResponse;
+import com.example.todoapp.data.network.todoapp.response.ResetPasswordResponse;
+import com.example.todoapp.data.network.todoapp.response.SendOtpResponse;
 import com.example.todoapp.data.network.todoapp.response.SignUpResponse;
+import com.example.todoapp.data.network.todoapp.response.VerifyEmailResponse;
 
 import okhttp3.Headers;
 
@@ -102,10 +105,27 @@ public class UserRemoteDataSource implements UserDataSource {
     }
 
     @Override
-    public void sendOtp(String email, SendOtpCallback callback) {
-        mTodoService.sendOtp(email, new CallBackUtil<SendOTPCodeResponse>(SendOTPCodeResponse.class) {
+    public void verifyEmail(String email, VerifyEmailCallback callback) {
+        mTodoService.verifyEmail(email, new CallBackUtil<VerifyEmailResponse>(VerifyEmailResponse.class) {
             @Override
-            public void onSuccess(int statusCode, Headers headers, SendOTPCodeResponse response) {
+            public void onSuccess(int statusCode, Headers headers, VerifyEmailResponse response) {
+                if (statusCode >= 200) {
+                    callback.onVerifyEmail(response.getOtp_id());
+                }
+            }
+
+            @Override
+            public void onError(Throwable throwable, ErrorResponse errorResponse) {
+                callback.onError(throwable, errorResponse);
+            }
+        });
+    }
+
+    @Override
+    public void sendOtp(String email, SendOtpCallback callback) {
+        mTodoService.sendOtp(email, new CallBackUtil<SendOtpResponse>(SendOtpResponse.class) {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, SendOtpResponse response) {
                 if (statusCode >= 200) {
                     callback.onSendOtp(response.getOtp_id());
                 }
@@ -137,7 +157,19 @@ public class UserRemoteDataSource implements UserDataSource {
 
     @Override
     public void resetPassword(String password, String otpId, String otp, ResetPasswordCallback callback) {
+        mTodoService.resetPassword(password, otpId, otp, new CallBackUtil<ResetPasswordResponse>(ResetPasswordResponse.class) {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, ResetPasswordResponse response) {
+                if (statusCode >= 200){
+                    callback.onResetPassword();
+                }
+            }
 
+            @Override
+            public void onError(Throwable throwable, ErrorResponse errorResponse) {
+                callback.onError(throwable, errorResponse);
+            }
+        });
     }
 
     @Override

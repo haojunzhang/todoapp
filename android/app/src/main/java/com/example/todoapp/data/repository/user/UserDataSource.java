@@ -32,6 +32,12 @@ public interface UserDataSource {
 
     void signUp(String phone, String password, String otpId, String otp, SignUpCallback callback);
 
+    interface VerifyEmailCallback extends DataSourceErrorCallback {
+        void onVerifyEmail(String otpId);
+    }
+
+    void verifyEmail(String email, VerifyEmailCallback callback);
+
     interface SendOtpCallback extends DataSourceErrorCallback {
         void onSendOtp(String otpId);
     }

@@ -1,6 +1,6 @@
 package com.example.todoapp.data.network.todoapp.response;
 
-public class SendOTPCodeResponse {
+public class VerifyEmailResponse {
     private String otp_id;
 
     public String getOtp_id() {

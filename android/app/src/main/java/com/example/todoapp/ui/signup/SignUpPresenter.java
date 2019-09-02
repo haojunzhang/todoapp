@@ -45,9 +45,9 @@ public class SignUpPresenter implements SignUpContract.Presenter {
         }
 
         mView.showLoadingView();
-        mUserRepository.sendOtp(email, new UserDataSource.SendOtpCallback() {
+        mUserRepository.verifyEmail(email, new UserDataSource.VerifyEmailCallback() {
             @Override
-            public void onSendOtp(String newOtpId) {
+            public void onVerifyEmail(String newOtpId) {
                 mView.dismissLoadingView();
                 setOtpId(newOtpId);
                 mView.showSendOtpMessage();

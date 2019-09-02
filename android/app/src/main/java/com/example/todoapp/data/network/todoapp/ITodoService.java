@@ -5,6 +5,7 @@ import com.example.todoapp.data.network.todoapp.request.LoginRequest;
 import com.example.todoapp.data.network.todoapp.request.ResetPasswordRequest;
 import com.example.todoapp.data.network.todoapp.request.SendOtpRequest;
 import com.example.todoapp.data.network.todoapp.request.SignUpRequest;
+import com.example.todoapp.data.network.todoapp.request.VerifyEmailRequest;
 
 import java.util.Map;
 
@@ -31,6 +32,10 @@ public interface ITodoService {
     Call<String> logout(@HeaderMap Map<String, String> headers,
                         @Query("uts") String uts);
 
+    @POST("users/email/")
+    Call<String> verifyEmail(@HeaderMap Map<String, String> headers,
+                         @Body VerifyEmailRequest request);
+
     @POST("otps/")
     Call<String> sendOtp(@HeaderMap Map<String, String> headers,
                          @Body SendOtpRequest request);
@@ -40,7 +45,7 @@ public interface ITodoService {
                                 @Path("userId") String userId,
                                 @Body ChangePasswordRequest request);
 
-    @PUT("users/reset-password/")
+    @PUT("users/reset_password/")
     Call<String> resetPassword(@HeaderMap Map<String, String> headers,
                                @Body ResetPasswordRequest request);
 
