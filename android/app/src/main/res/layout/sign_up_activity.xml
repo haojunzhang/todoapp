@@ -18,13 +18,27 @@
         android:hint="@string/password"
         android:inputType="textPassword" />
 
-    <TextView
-        android:id="@+id/btnLogin"
-        style="@style/AppTheme.Widget.TextView"
-        android:text="@string/login" />
+    <EditText
+        android:id="@+id/etPasswordConfirm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/password_confirm"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/etOtp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/otp"
+        android:inputType="number" />
 
     <TextView
         android:id="@+id/btnSignUp"
         style="@style/AppTheme.Widget.TextView"
         android:text="@string/sign_up" />
+
+    <TextView
+        android:id="@+id/btnSendOtp"
+        style="@style/AppTheme.Widget.TextView"
+        android:text="@string/send_otp" />
 </LinearLayout>

@@ -32,7 +32,7 @@ class UserService:
 
         # check exist
         if TodoUser.objects.filter(
-                Q(email=fields.get('email')) | Q(sign_pub_key=fields.get('sign_pub_key'))).count() > 0:
+                Q(email=fields.get('email')) | Q(user_sign_pub_key=fields.get('user_sign_pub_key'))).count() > 0:
             raise UserAlreadyExist
 
         user = TodoUser(**fields)
@@ -40,14 +40,14 @@ class UserService:
         user.save()
         return user
 
-    @classmethod
+    @staticmethod
     def set_login(user):
         api_token = generate_user_token()
         user.api_token = api_token
         user.save()
         return api_token
 
-    @classmethod
+    @staticmethod
     def logout(user):
         user.api_token = None
         user.save()
@@ -58,13 +58,15 @@ class OtpService:
     def __init__(self, *args, **kwargs):
         pass
 
-    def _generate_otp_value(self):
+    @staticmethod
+    def _generate_otp_value():
         return ''.join([str(random.randint(0, 9)) for _ in range(6)])
 
-    def send(self, email):
+    @staticmethod
+    def send(email):
         # generate id, value, text
         otp_id = AutoPubIDField().create_pushid()
-        otp_value = self._generate_otp_value()
+        otp_value = OtpService._generate_otp_value()
         otp_text = f'your verification code {otp_value}'
 
         # send

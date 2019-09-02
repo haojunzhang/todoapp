@@ -13,4 +13,12 @@
     <string name="success">Success</string>
     <string name="fail">Fail</string>
     <string name="login">Login</string>
+    <string name="otp_send">Otp send</string>
+    <string name="sign_up">SignUp</string>
+    <string name="send_otp">send otp</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="password_confirm">Password confirm</string>
+    <string name="otp">otp</string>
+    <string name="logout">Logout</string>
 </resources>

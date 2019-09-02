@@ -4,7 +4,7 @@ public class LoginRequest {
     private String ts;
     private String email;
     private String password;
-    private String sign_pub_key;
+    private String user_sign_pub_key;
 
     public String getTs() {
         return ts;
@@ -30,11 +30,11 @@ public class LoginRequest {
         this.password = password;
     }
 
-    public String getSign_pub_key() {
-        return sign_pub_key;
+    public String getUser_sign_pub_key() {
+        return user_sign_pub_key;
     }
 
-    public void setSign_pub_key(String sign_pub_key) {
-        this.sign_pub_key = sign_pub_key;
+    public void setUser_sign_pub_key(String user_sign_pub_key) {
+        this.user_sign_pub_key = user_sign_pub_key;
     }
 }

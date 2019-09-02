@@ -1,18 +1,18 @@
 package com.example.todoapp.data.network.todoapp.request;
 
 public class ChangePasswordRequest {
-    private String uts;
+    private String ts;
     private String user_id;
     private String password;
     private String otp_id;
     private String otp;
 
-    public String getUts() {
-        return uts;
+    public String getTs() {
+        return ts;
     }
 
-    public void setUts(String uts) {
-        this.uts = uts;
+    public void setTs(String ts) {
+        this.ts = ts;
     }
 
     public String getUser_id() {

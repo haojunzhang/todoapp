@@ -4,6 +4,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
 
+from .serializers.otp import SendOtpSerializer
 from .serializers.users import SignUpSerializer, UserDisplaySerializer, LoginSerializer, EmailSerializer
 
 from .models import TodoUser
@@ -82,8 +83,8 @@ class UserViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin,
             raise LoginFailed()
 
         if user.check_password(validated_data['password']):
-            user.sign_pub_key = validated_data['sign_pub_key']
-            user.save(update_fields=['sign_pub_key', 'modified'])
+            user.sign_pub_key = validated_data['user_sign_pub_key']
+            user.save(update_fields=['user_sign_pub_key', 'modified'])
 
             return Response(
                 data={
@@ -104,3 +105,22 @@ class UserViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin,
     @action(methods=['put'], detail=False)
     def reset_password(self, request):
         pass
+
+
+class OtpViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin,
+                 mixins.RetrieveModelMixin, GenericViewSet):
+
+    def create(self, request, *args, **kwargs):
+        serializer = SendOtpSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        validated_data = serializer.validated_data
+        print(validated_data)
+        # send otp
+        otp_id = OtpService.send(validated_data['email'])
+
+        return Response(
+            data={
+                'otp_id': otp_id
+            },
+            status=status.HTTP_201_CREATED
+        )

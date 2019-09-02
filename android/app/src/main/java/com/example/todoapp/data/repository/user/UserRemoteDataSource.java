@@ -42,6 +42,17 @@ public class UserRemoteDataSource implements UserDataSource {
     }
 
     @Override
+    public void setEmail(String email) {
+        // do nothing
+    }
+
+    @Override
+    public String getEmail() {
+        // do nothing
+        return null;
+    }
+
+    @Override
     public void logout() {
         mTodoService.logout(new CallBackUtil<LogoutResponse>(LogoutResponse.class) {
             @Override
@@ -74,8 +85,8 @@ public class UserRemoteDataSource implements UserDataSource {
     }
 
     @Override
-    public void signUp(String phone, String password, String otpId, String otp, SignUpCallback callback) {
-        mTodoService.signUp(phone, password, otpId, otp, new CallBackUtil<SignUpResponse>(SignUpResponse.class) {
+    public void signUp(String email, String password, String otpId, String otp, SignUpCallback callback) {
+        mTodoService.signUp(email, password, otpId, otp, new CallBackUtil<SignUpResponse>(SignUpResponse.class) {
             @Override
             public void onSuccess(int statusCode, Headers headers, SignUpResponse response) {
                 if (statusCode >= 200) {
@@ -91,12 +102,12 @@ public class UserRemoteDataSource implements UserDataSource {
     }
 
     @Override
-    public void sendOTPCode(String phone, String deviceId, SendOTPCodeCallback callback) {
-        mTodoService.sendOTPCode(phone, deviceId, new CallBackUtil<SendOTPCodeResponse>(SendOTPCodeResponse.class) {
+    public void sendOtp(String email, SendOtpCallback callback) {
+        mTodoService.sendOtp(email, new CallBackUtil<SendOTPCodeResponse>(SendOTPCodeResponse.class) {
             @Override
             public void onSuccess(int statusCode, Headers headers, SendOTPCodeResponse response) {
                 if (statusCode >= 200) {
-                    callback.onSendOTPCode(response.getOtp_id());
+                    callback.onSendOtp(response.getOtp_id());
                 }
             }
 

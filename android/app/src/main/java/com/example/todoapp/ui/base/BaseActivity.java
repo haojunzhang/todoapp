@@ -15,7 +15,7 @@ import com.example.todoapp.utils.LogUtils;
 import butterknife.ButterKnife;
 import dagger.android.AndroidInjection;
 
-public class BaseActivity extends AppCompatActivity implements BaseView{
+public class BaseActivity extends AppCompatActivity implements BaseView {
 
     private AlertDialog loadingDialog;
 
@@ -54,11 +54,18 @@ public class BaseActivity extends AppCompatActivity implements BaseView{
         dismissLoadingView();
         String code = ErrorCodeUtils.getCode(throwable, errorResponse);
         String message = ErrorCodeUtils.getMessage(this, code, throwable, errorResponse);
-        LogUtils.d("code:"+code);
+        alert(message);
     }
 
     @Override
     public void finishActivity() {
         finish();
+    }
+
+    protected void alert(String text) {
+        new AlertDialog.Builder(this)
+                .setMessage(text)
+                .setPositiveButton(R.string.confirm, null)
+                .show();
     }
 }

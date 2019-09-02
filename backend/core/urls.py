@@ -16,14 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from rest_framework import routers
-from users.views import UserViewSet, send_otp
+from users.views import UserViewSet, OtpViewSet
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('otp/', send_otp)
 ]
 
 router = routers.SimpleRouter()
 router.register('users', UserViewSet, base_name='user')
+router.register('otps', OtpViewSet, base_name='otp')
 
 urlpatterns += router.urls

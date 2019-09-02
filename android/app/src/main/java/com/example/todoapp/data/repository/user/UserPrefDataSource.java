@@ -38,6 +38,18 @@ public class UserPrefDataSource implements UserDataSource {
     }
 
     @Override
+    public void setEmail(String email) {
+        String encryptedEmail = mKeyStoreRepository.encrypt(email);
+        mPrefUtils.setString(PrefUtils.EMAIL, encryptedEmail);
+    }
+
+    @Override
+    public String getEmail() {
+        String encryptedEmail = mPrefUtils.getString(PrefUtils.EMAIL);
+        return mKeyStoreRepository.decrypt(encryptedEmail);
+    }
+
+    @Override
     public void logout() {
 
     }
@@ -53,7 +65,7 @@ public class UserPrefDataSource implements UserDataSource {
     }
 
     @Override
-    public void sendOTPCode(String phone, String deviceId, SendOTPCodeCallback callback) {
+    public void sendOtp(String email, SendOtpCallback callback) {
         // do nothing
     }
 

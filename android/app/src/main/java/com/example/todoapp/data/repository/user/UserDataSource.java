@@ -14,6 +14,9 @@ public interface UserDataSource {
 
     void logout();
 
+    void setEmail(String email);
+
+    String getEmail();
 
     interface LoginCallback extends DataSourceErrorCallback {
         void onLogin(String userId, String userToken);
@@ -29,11 +32,11 @@ public interface UserDataSource {
 
     void signUp(String phone, String password, String otpId, String otp, SignUpCallback callback);
 
-    interface SendOTPCodeCallback extends DataSourceErrorCallback {
-        void onSendOTPCode(String otpId);
+    interface SendOtpCallback extends DataSourceErrorCallback {
+        void onSendOtp(String otpId);
     }
 
-    void sendOTPCode(String phone, String deviceId, SendOTPCodeCallback callback);
+    void sendOtp(String email, SendOtpCallback callback);
 
     interface ResetPasswordCallback extends DataSourceErrorCallback {
         void onResetPassword();

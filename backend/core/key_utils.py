@@ -34,15 +34,15 @@ def decrypt(text, pri_key):
     try:
         cipher_text = b64decode(text)
     except binasciiError:
-        return ''
+        return None
     else:
         cipher = Cipher_pkcs1_v1_5.new(pri_key)
         try:
             message = cipher.decrypt(cipher_text, None)
         except ValueError:
-            return ''
+            return None
         else:
-            return message.decode() if message else ''
+            return message.decode() if message else None
 
 
 def sign(text, pri_key):

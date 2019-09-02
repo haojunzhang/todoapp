@@ -7,6 +7,8 @@ import android.os.Bundle;
 import com.example.todoapp.R;
 import com.example.todoapp.ui.base.BaseActivity;
 
+import butterknife.OnClick;
+
 public class MainActivity extends BaseActivity {
 
     @Override

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 
-class SendOTPSerializer(serializers.Serializer):
+class SendOtpSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
 
     def validate_email(self, value):

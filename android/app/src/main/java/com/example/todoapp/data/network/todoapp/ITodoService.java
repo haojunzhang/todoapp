@@ -3,7 +3,7 @@ package com.example.todoapp.data.network.todoapp;
 import com.example.todoapp.data.network.todoapp.request.ChangePasswordRequest;
 import com.example.todoapp.data.network.todoapp.request.LoginRequest;
 import com.example.todoapp.data.network.todoapp.request.ResetPasswordRequest;
-import com.example.todoapp.data.network.todoapp.request.SendOTPCodeRequest;
+import com.example.todoapp.data.network.todoapp.request.SendOtpRequest;
 import com.example.todoapp.data.network.todoapp.request.SignUpRequest;
 
 import java.util.Map;
@@ -11,9 +11,7 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
-import retrofit2.http.GET;
 import retrofit2.http.HeaderMap;
-import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -34,8 +32,8 @@ public interface ITodoService {
                         @Query("uts") String uts);
 
     @POST("otps/")
-    Call<String> sendOTPCode(@HeaderMap Map<String, String> headers,
-                             @Body SendOTPCodeRequest request);
+    Call<String> sendOtp(@HeaderMap Map<String, String> headers,
+                         @Body SendOtpRequest request);
 
     @PUT("users/{userId}/password/")
     Call<String> changePassword(@HeaderMap Map<String, String> headers,

@@ -3,6 +3,7 @@
     package="com.example.todoapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".ui.base.App"
         android:allowBackup="true"
@@ -12,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.main.MainActivity"></activity>
+        <activity android:name=".ui.signup.SignUpActivity"></activity>
+        <activity android:name=".ui.main.MainActivity" />
         <activity android:name=".ui.login.LoginActivity" />
         <activity android:name=".ui.home.HomeActivity" />
         <activity android:name=".ui.addtodo.AddTodoActivity" />

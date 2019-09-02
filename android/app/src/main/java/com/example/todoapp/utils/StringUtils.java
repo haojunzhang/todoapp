@@ -1,5 +1,6 @@
 package com.example.todoapp.utils;
 
+import android.text.TextUtils;
 import android.util.Base64;
 
 import androidx.core.util.PatternsCompat;
@@ -14,7 +15,7 @@ import java.util.regex.Pattern;
 
 public class StringUtils {
 
-    public static String decodeUnicode(String text){
+    public static String decodeUnicode(String text) {
         return new String(text.getBytes());
     }
 
@@ -68,5 +69,14 @@ public class StringUtils {
         return Pattern.compile("(?=.*[a-zA-Z])(?=.*[0-9]).{8,}")
                 .matcher(password)
                 .matches();
+    }
+
+    public static boolean isEmpty(String... texts) {
+        for (String t : texts) {
+            if (TextUtils.isEmpty(t)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

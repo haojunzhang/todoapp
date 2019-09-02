@@ -3,17 +3,14 @@ package com.example.todoapp.utils;
 import android.content.SharedPreferences;
 
 public class PrefUtils {
-
-    public static final String PREF_NAME = "todo_app";
-
     public static final String AES_KEY = "aes_key";
     public static final String IV = "iv";
     public static final String USER_ID = "user_id";
     public static final String USER_TOKEN = "user_token";
-    public static final String USER_PROFILE = "user_profile";
     public static final String USER_PRIVATE_KEY = "user_private_key";
     public static final String USER_PUBLIC_KEY = "user_public_key";
     public static final String IS_LOGIN = "is_login";
+    public static final String EMAIL = "email";
 
     private final SharedPreferences mSharedPreferences;
 

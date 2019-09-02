@@ -3,7 +3,7 @@ package com.example.todoapp.data.network.todoapp;
 import com.example.todoapp.data.network.todoapp.request.ChangePasswordRequest;
 import com.example.todoapp.data.network.todoapp.request.LoginRequest;
 import com.example.todoapp.data.network.todoapp.request.ResetPasswordRequest;
-import com.example.todoapp.data.network.todoapp.request.SendOTPCodeRequest;
+import com.example.todoapp.data.network.todoapp.request.SendOtpRequest;
 import com.example.todoapp.data.network.todoapp.request.SignUpRequest;
 import com.example.todoapp.data.repository.keystore.KeyStoreRepository;
 import com.example.todoapp.utils.DateTimeUtils;
@@ -114,14 +114,14 @@ public class TodoService {
         userPublicKey = null;
     }
 
-    public void signUp(String phone, String password, String otpId, String otp, CallBackUtil callback) {
+    public void signUp(String email, String password, String otpId, String otp, CallBackUtil callback) {
         SignUpRequest request = new SignUpRequest();
-        request.setUts(DateTimeUtils.getUnixTime());
+        request.setTs(DateTimeUtils.getUnixTime());
         request.setOtp_id(otpId);
         request.setOtp(otp);
-        request.setPhone(phone);
+        request.setEmail(email);
         request.setPassword(SignatureUtils.encryptByPublicKey(password, getAppEncPublic()));
-        request.setSign_public_key(getUserPublicKey());
+        request.setUser_sign_pub_key(getUserPublicKey());
 
         mService.signUp(getHeaders(
                 TodoConst.User.Type.APP_USER,
@@ -135,7 +135,7 @@ public class TodoService {
         request.setTs(DateTimeUtils.getUnixTime());
         request.setEmail(phone);
         request.setPassword(SignatureUtils.encryptByPublicKey(password, getAppEncPublic()));
-        request.setSign_pub_key(getUserPublicKey());
+        request.setUser_sign_pub_key(getUserPublicKey());
 
         mService.login(getHeaders(
                 TodoConst.User.Type.APP_USER,
@@ -158,13 +158,12 @@ public class TodoService {
                 getSignature(params, userPrivateKey)), uts).enqueue(callback);
     }
 
-    public void sendOTPCode(String phone, String deviceId, CallBackUtil callback) {
-        SendOTPCodeRequest request = new SendOTPCodeRequest();
-        request.setUts(DateTimeUtils.getUnixTime());
-        request.setPhone(phone);
-        request.setDeviceId(deviceId);
+    public void sendOtp(String email, CallBackUtil callback) {
+        SendOtpRequest request = new SendOtpRequest();
+        request.setTs(DateTimeUtils.getUnixTime());
+        request.setEmail(email);
 
-        mService.sendOTPCode(getHeaders(
+        mService.sendOtp(getHeaders(
                 TodoConst.User.Type.APP_USER,
                 getAppUserToken(),
                 getSignature(request, getAppSignPrivate())
@@ -177,7 +176,7 @@ public class TodoService {
         String userId = getUserId();
 
         ChangePasswordRequest request = new ChangePasswordRequest();
-        request.setUts(DateTimeUtils.getUnixTime());
+        request.setTs(DateTimeUtils.getUnixTime());
         request.setUser_id(userId);
         request.setPassword(SignatureUtils.encryptByPublicKey(password, getAppEncPublic()));
         request.setOtp_id(otp_id);
@@ -191,7 +190,7 @@ public class TodoService {
 
     public void resetPassword(String password, String otp_id, String otp, CallBackUtil callback) {
         ResetPasswordRequest request = new ResetPasswordRequest();
-        request.setUts(DateTimeUtils.getUnixTime());
+        request.setTs(DateTimeUtils.getUnixTime());
         request.setPassword(SignatureUtils.encryptByPublicKey(password, getAppEncPublic()));
         request.setOtp_id(otp_id);
         request.setOtp(otp);

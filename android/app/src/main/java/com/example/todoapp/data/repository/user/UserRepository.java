@@ -14,6 +14,7 @@ public class UserRepository implements UserDataSource {
 
     private String userId;
     private String userToken;
+    private String email;
 
     @Inject
     public UserRepository(@Pref UserDataSource mUserPrefDataSource, @Remote UserDataSource mUserRemoteDataSource) {
@@ -56,6 +57,23 @@ public class UserRepository implements UserDataSource {
     }
 
     @Override
+    public void setEmail(String email) {
+        // set cache
+        this.email = email;
+
+        // set pref
+        mUserPrefDataSource.setEmail(email);
+    }
+
+    @Override
+    public String getEmail() {
+        if (email == null) {
+            email = mUserPrefDataSource.getEmail();
+        }
+        return email;
+    }
+
+    @Override
     public void logout() {
 
         // 清掉快取
@@ -72,13 +90,13 @@ public class UserRepository implements UserDataSource {
     }
 
     @Override
-    public void signUp(String phone, String password, String otpId, String otp, SignUpCallback callback) {
-        mUserRemoteDataSource.signUp(phone, password, otpId, otp, callback);
+    public void signUp(String email, String password, String otpId, String otp, SignUpCallback callback) {
+        mUserRemoteDataSource.signUp(email, password, otpId, otp, callback);
     }
 
     @Override
-    public void sendOTPCode(String phone, String deviceId, SendOTPCodeCallback callback) {
-        mUserRemoteDataSource.sendOTPCode(phone, deviceId, callback);
+    public void sendOtp(String email, SendOtpCallback callback) {
+        mUserRemoteDataSource.sendOtp(email, callback);
     }
 
     @Override

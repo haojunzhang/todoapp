@@ -8,6 +8,7 @@ import android.widget.EditText;
 import com.example.todoapp.R;
 import com.example.todoapp.ui.base.BaseActivity;
 import com.example.todoapp.ui.main.MainActivity;
+import com.example.todoapp.ui.signup.SignUpActivity;
 
 import javax.inject.Inject;
 
@@ -31,16 +32,17 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
         super.onCreate(savedInstanceState);
     }
 
-    @OnClick({R.id.btnLogin})
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnLogin:
-                mPresenter.login(
-                        etEmail.getText().toString(),
-                        etPassword.getText().toString()
-                );
-                break;
-        }
+    @OnClick(R.id.btnLogin)
+    public void login() {
+        mPresenter.login(
+                etEmail.getText().toString(),
+                etPassword.getText().toString()
+        );
+    }
+
+    @OnClick(R.id.btnSignUp)
+    public void openSignUpActivity() {
+        startActivity(new Intent(this, SignUpActivity.class));
     }
 
     @Override
