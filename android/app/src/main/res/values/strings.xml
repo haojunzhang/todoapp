@@ -21,4 +21,6 @@
     <string name="password_confirm">Password confirm</string>
     <string name="otp">otp</string>
     <string name="logout">Logout</string>
+    <string name="home">Home</string>
+    <string name="setting">Setting</string>
 </resources>
