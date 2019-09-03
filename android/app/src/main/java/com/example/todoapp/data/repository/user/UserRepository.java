@@ -85,37 +85,37 @@ public class UserRepository implements UserDataSource {
     }
 
     @Override
-    public void login(String phone, String password, LoginCallback callback) {
+    public void login(String phone, String password, LoginCallbackI callback) {
         mUserRemoteDataSource.login(phone, password, callback);
     }
 
     @Override
-    public void signUp(String email, String password, String otpId, String otp, SignUpCallback callback) {
+    public void signUp(String email, String password, String otpId, String otp, SignUpCallbackI callback) {
         mUserRemoteDataSource.signUp(email, password, otpId, otp, callback);
     }
 
     @Override
-    public void verifyEmail(String email, VerifyEmailCallback callback) {
+    public void verifyEmail(String email, VerifyEmailCallbackI callback) {
         mUserRemoteDataSource.verifyEmail(email, callback);
     }
 
     @Override
-    public void sendOtp(String email, SendOtpCallback callback) {
+    public void sendOtp(String email, SendOtpCallbackI callback) {
         mUserRemoteDataSource.sendOtp(email, callback);
     }
 
     @Override
-    public void resetPassword(String password, String otpId, String otp, ResetPasswordCallback callback) {
+    public void resetPassword(String password, String otpId, String otp, ResetPasswordCallbackI callback) {
         mUserRemoteDataSource.resetPassword(password, otpId, otp, callback);
     }
 
     @Override
-    public void resendOTPCode(String otpId, ResendOTPCodeCallback callback) {
+    public void resendOTPCode(String otpId, ResendOTPCodeCallbackI callback) {
         mUserRemoteDataSource.resendOTPCode(otpId, callback);
     }
 
     @Override
-    public void changePassword(String password, String otpId, String otp, ChangePasswordCallback callback) {
+    public void changePassword(String password, String otpId, String otp, ChangePasswordCallbackI callback) {
         mUserRemoteDataSource.changePassword(password, otpId, otp, callback);
     }
 }

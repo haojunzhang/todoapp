@@ -45,7 +45,7 @@ public class SignUpPresenter implements SignUpContract.Presenter {
         }
 
         mView.showLoadingView();
-        mUserRepository.verifyEmail(email, new UserDataSource.VerifyEmailCallback() {
+        mUserRepository.verifyEmail(email, new UserDataSource.VerifyEmailCallbackI() {
             @Override
             public void onVerifyEmail(String newOtpId) {
                 mView.dismissLoadingView();
@@ -87,7 +87,7 @@ public class SignUpPresenter implements SignUpContract.Presenter {
                 new Handler(Looper.getMainLooper()).post(() -> {
                     // in main thread
 
-                    mUserRepository.signUp(email, password, otpId, otp, new UserDataSource.SignUpCallback() {
+                    mUserRepository.signUp(email, password, otpId, otp, new UserDataSource.SignUpCallbackI() {
                         @Override
                         public void onSignUp(String userId, String userToken) {
                             mView.dismissLoadingView();

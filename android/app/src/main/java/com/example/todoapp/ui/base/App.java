@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 
-import com.example.todoapp.data.network.todoapp.CallBackUtil;
+import com.example.todoapp.data.network.todoapp.BaseTodoServiceCallBack;
 import com.example.todoapp.data.repository.app.AppRepository;
 import com.example.todoapp.data.repository.keystore.KeyStoreRepository;
 import com.example.todoapp.di.component.DaggerAppComponent;
@@ -68,7 +68,7 @@ public class App extends Application implements HasActivityInjector {
         FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
                 .showThreadInfo(false)  // (Optional) Whether to show thread info or not. Default true
                 .methodCount(0)         // (Optional) How many method line to show. Default 2
-                .tag(CallBackUtil.TAG)
+                .tag(BaseTodoServiceCallBack.TAG)
                 .build();
 
         Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy));

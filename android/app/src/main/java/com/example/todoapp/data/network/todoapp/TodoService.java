@@ -115,7 +115,7 @@ public class TodoService {
         userPublicKey = null;
     }
 
-    public void signUp(String email, String password, String otpId, String otp, CallBackUtil callback) {
+    public void signUp(String email, String password, String otpId, String otp, BaseTodoServiceCallBack callback) {
         SignUpRequest request = new SignUpRequest();
         request.setTs(DateTimeUtils.getUnixTime());
         request.setOtp_id(otpId);
@@ -131,7 +131,7 @@ public class TodoService {
         ), request).enqueue(callback);
     }
 
-    public void login(String phone, String password, CallBackUtil callback) {
+    public void login(String phone, String password, BaseTodoServiceCallBack callback) {
         LoginRequest request = new LoginRequest();
         request.setTs(DateTimeUtils.getUnixTime());
         request.setEmail(phone);
@@ -145,7 +145,7 @@ public class TodoService {
         ), request).enqueue(callback);
     }
 
-    public void logout(CallBackUtil callback) {
+    public void logout(BaseTodoServiceCallBack callback) {
         String userToken = getUserToken();
         String userPrivateKey = getUserPrivateKey();
 
@@ -159,7 +159,7 @@ public class TodoService {
                 getSignature(params, userPrivateKey)), uts).enqueue(callback);
     }
 
-    public void verifyEmail(String email, CallBackUtil callback) {
+    public void verifyEmail(String email, BaseTodoServiceCallBack callback) {
         VerifyEmailRequest request = new VerifyEmailRequest();
         request.setTs(DateTimeUtils.getUnixTime());
         request.setEmail(email);
@@ -171,7 +171,7 @@ public class TodoService {
         ), request).enqueue(callback);
     }
 
-    public void sendOtp(String email, CallBackUtil callback) {
+    public void sendOtp(String email, BaseTodoServiceCallBack callback) {
         SendOtpRequest request = new SendOtpRequest();
         request.setTs(DateTimeUtils.getUnixTime());
         request.setEmail(email);
@@ -183,7 +183,7 @@ public class TodoService {
         ), request).enqueue(callback);
     }
 
-    public void changePassword(String password, String otp_id, String otp, CallBackUtil callback) {
+    public void changePassword(String password, String otp_id, String otp, BaseTodoServiceCallBack callback) {
         String userToken = getUserToken();
         String userPrivateKey = getUserPrivateKey();
         String userId = getUserId();
@@ -201,7 +201,7 @@ public class TodoService {
                 getSignature(request, userPrivateKey)), userId, request).enqueue(callback);
     }
 
-    public void resetPassword(String password, String otp_id, String otp, CallBackUtil callback) {
+    public void resetPassword(String password, String otp_id, String otp, BaseTodoServiceCallBack callback) {
         ResetPasswordRequest request = new ResetPasswordRequest();
         request.setTs(DateTimeUtils.getUnixTime());
         request.setPassword(SignatureUtils.encryptByPublicKey(password, getAppEncPublic()));

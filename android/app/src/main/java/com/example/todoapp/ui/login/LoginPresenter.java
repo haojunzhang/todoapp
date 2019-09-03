@@ -8,7 +8,6 @@ import com.example.todoapp.data.repository.app.AppRepository;
 import com.example.todoapp.data.repository.keystore.KeyStoreRepository;
 import com.example.todoapp.data.repository.user.UserDataSource;
 import com.example.todoapp.data.repository.user.UserRepository;
-import com.example.todoapp.utils.LogUtils;
 import com.example.todoapp.utils.SignatureUtils;
 
 import java.security.KeyPair;
@@ -52,7 +51,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                 new Handler(Looper.getMainLooper()).post(() -> {
                     // in main thread
 
-                    mUserRepository.login(email, password, new UserDataSource.LoginCallback() {
+                    mUserRepository.login(email, password, new UserDataSource.LoginCallbackI() {
                         @Override
                         public void onLogin(String userId, String userToken) {
                             mView.dismissLoadingView();

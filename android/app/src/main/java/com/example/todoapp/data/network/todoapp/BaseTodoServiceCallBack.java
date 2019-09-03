@@ -7,18 +7,17 @@ import com.example.todoapp.utils.SignatureUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
-import okhttp3.Headers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public abstract class CallBackUtil<T> implements Callback {
+public abstract class BaseTodoServiceCallBack<T> implements Callback {
 
     public static final String TAG = "api";
 
     private Class<T> clz;
 
-    public CallBackUtil(Class<T> clz) {
+    public BaseTodoServiceCallBack(Class<T> clz) {
         this.clz = clz;
     }
 
@@ -70,7 +69,7 @@ public abstract class CallBackUtil<T> implements Callback {
 
             // 成功
             try {
-                onSuccess(response.code(), response.headers(), new Gson().fromJson(response.body().toString(), clz));
+                onSuccess(new Gson().fromJson(response.body().toString(), clz));
             } catch (JsonSyntaxException e) {
                 // 回傳的JSON剖析失敗
                 onError(e.getCause(), null);
@@ -80,7 +79,7 @@ public abstract class CallBackUtil<T> implements Callback {
         }
 
         // 成功(無回傳), ex:登出..
-        onSuccess(response.code(), response.headers(), new Gson().fromJson("{}", clz));
+        onSuccess(new Gson().fromJson("{}", clz));
         LogUtils.d(TAG, "---");
     }
 
@@ -89,7 +88,7 @@ public abstract class CallBackUtil<T> implements Callback {
         onError(t, null);
     }
 
-    public abstract void onSuccess(int statusCode, Headers headers, T response);
+    public abstract void onSuccess(T response);
 
     public abstract void onError(Throwable throwable, ErrorResponse errorResponse);
 }

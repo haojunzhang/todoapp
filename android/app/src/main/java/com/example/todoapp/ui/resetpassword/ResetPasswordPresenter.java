@@ -37,7 +37,7 @@ public class ResetPasswordPresenter implements ResetPasswordContract.Presenter {
         }
 
         mView.showLoadingView();
-        mUserRepository.resetPassword(password, otpId, otp, new UserDataSource.ResetPasswordCallback() {
+        mUserRepository.resetPassword(password, otpId, otp, new UserDataSource.ResetPasswordCallbackI() {
             @Override
             public void onResetPassword() {
                 mView.dismissLoadingView();

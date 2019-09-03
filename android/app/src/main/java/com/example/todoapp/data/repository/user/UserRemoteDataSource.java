@@ -1,7 +1,6 @@
 package com.example.todoapp.data.repository.user;
 
-import com.example.todoapp.data.network.todoapp.CallBackUtil;
-import com.example.todoapp.data.network.todoapp.request.ResetPasswordRequest;
+import com.example.todoapp.data.network.todoapp.BaseTodoServiceCallBack;
 import com.example.todoapp.data.network.todoapp.response.ChangePasswordResponse;
 import com.example.todoapp.data.network.todoapp.response.LoginResponse;
 import com.example.todoapp.data.network.todoapp.response.LogoutResponse;
@@ -11,8 +10,6 @@ import com.example.todoapp.data.network.todoapp.response.ResetPasswordResponse;
 import com.example.todoapp.data.network.todoapp.response.SendOtpResponse;
 import com.example.todoapp.data.network.todoapp.response.SignUpResponse;
 import com.example.todoapp.data.network.todoapp.response.VerifyEmailResponse;
-
-import okhttp3.Headers;
 
 public class UserRemoteDataSource implements UserDataSource {
 
@@ -57,9 +54,9 @@ public class UserRemoteDataSource implements UserDataSource {
 
     @Override
     public void logout() {
-        mTodoService.logout(new CallBackUtil<LogoutResponse>(LogoutResponse.class) {
+        mTodoService.logout(new BaseTodoServiceCallBack<LogoutResponse>(LogoutResponse.class) {
             @Override
-            public void onSuccess(int statusCode, Headers headers, LogoutResponse response) {
+            public void onSuccess(LogoutResponse response) {
 
             }
 
@@ -71,13 +68,11 @@ public class UserRemoteDataSource implements UserDataSource {
     }
 
     @Override
-    public void login(String phone, String password, LoginCallback callback) {
-        mTodoService.login(phone, password, new CallBackUtil<LoginResponse>(LoginResponse.class) {
+    public void login(String phone, String password, LoginCallbackI callback) {
+        mTodoService.login(phone, password, new BaseTodoServiceCallBack<LoginResponse>(LoginResponse.class) {
             @Override
-            public void onSuccess(int statusCode, Headers headers, LoginResponse response) {
-                if (statusCode >= 200) {
-                    callback.onLogin(response.getUser_id(), response.getUser_token());
-                }
+            public void onSuccess(LoginResponse response) {
+                callback.onLogin(response.getUser_id(), response.getUser_token());
             }
 
             @Override
@@ -88,13 +83,11 @@ public class UserRemoteDataSource implements UserDataSource {
     }
 
     @Override
-    public void signUp(String email, String password, String otpId, String otp, SignUpCallback callback) {
-        mTodoService.signUp(email, password, otpId, otp, new CallBackUtil<SignUpResponse>(SignUpResponse.class) {
+    public void signUp(String email, String password, String otpId, String otp, SignUpCallbackI callback) {
+        mTodoService.signUp(email, password, otpId, otp, new BaseTodoServiceCallBack<SignUpResponse>(SignUpResponse.class) {
             @Override
-            public void onSuccess(int statusCode, Headers headers, SignUpResponse response) {
-                if (statusCode >= 200) {
-                    callback.onSignUp(response.getUser_id(), response.getUser_token());
-                }
+            public void onSuccess(SignUpResponse response) {
+                callback.onSignUp(response.getUser_id(), response.getUser_token());
             }
 
             @Override
@@ -105,13 +98,11 @@ public class UserRemoteDataSource implements UserDataSource {
     }
 
     @Override
-    public void verifyEmail(String email, VerifyEmailCallback callback) {
-        mTodoService.verifyEmail(email, new CallBackUtil<VerifyEmailResponse>(VerifyEmailResponse.class) {
+    public void verifyEmail(String email, VerifyEmailCallbackI callback) {
+        mTodoService.verifyEmail(email, new BaseTodoServiceCallBack<VerifyEmailResponse>(VerifyEmailResponse.class) {
             @Override
-            public void onSuccess(int statusCode, Headers headers, VerifyEmailResponse response) {
-                if (statusCode >= 200) {
-                    callback.onVerifyEmail(response.getOtp_id());
-                }
+            public void onSuccess(VerifyEmailResponse response) {
+                callback.onVerifyEmail(response.getOtp_id());
             }
 
             @Override
@@ -122,13 +113,11 @@ public class UserRemoteDataSource implements UserDataSource {
     }
 
     @Override
-    public void sendOtp(String email, SendOtpCallback callback) {
-        mTodoService.sendOtp(email, new CallBackUtil<SendOtpResponse>(SendOtpResponse.class) {
+    public void sendOtp(String email, SendOtpCallbackI callback) {
+        mTodoService.sendOtp(email, new BaseTodoServiceCallBack<SendOtpResponse>(SendOtpResponse.class) {
             @Override
-            public void onSuccess(int statusCode, Headers headers, SendOtpResponse response) {
-                if (statusCode >= 200) {
-                    callback.onSendOtp(response.getOtp_id());
-                }
+            public void onSuccess(SendOtpResponse response) {
+                callback.onSendOtp(response.getOtp_id());
             }
 
             @Override
@@ -139,13 +128,11 @@ public class UserRemoteDataSource implements UserDataSource {
     }
 
     @Override
-    public void changePassword(String password, String otpId, String otp, ChangePasswordCallback callback) {
-        mTodoService.changePassword(password, otpId, otp, new CallBackUtil<ChangePasswordResponse>(ChangePasswordResponse.class) {
+    public void changePassword(String password, String otpId, String otp, ChangePasswordCallbackI callback) {
+        mTodoService.changePassword(password, otpId, otp, new BaseTodoServiceCallBack<ChangePasswordResponse>(ChangePasswordResponse.class) {
             @Override
-            public void onSuccess(int statusCode, Headers headers, ChangePasswordResponse response) {
-                if (statusCode >= 200) {
-                    callback.onChangePassword(response.getUser_token());
-                }
+            public void onSuccess(ChangePasswordResponse response) {
+                callback.onChangePassword(response.getUser_token());
             }
 
             @Override
@@ -156,13 +143,11 @@ public class UserRemoteDataSource implements UserDataSource {
     }
 
     @Override
-    public void resetPassword(String password, String otpId, String otp, ResetPasswordCallback callback) {
-        mTodoService.resetPassword(password, otpId, otp, new CallBackUtil<ResetPasswordResponse>(ResetPasswordResponse.class) {
+    public void resetPassword(String password, String otpId, String otp, ResetPasswordCallbackI callback) {
+        mTodoService.resetPassword(password, otpId, otp, new BaseTodoServiceCallBack<ResetPasswordResponse>(ResetPasswordResponse.class) {
             @Override
-            public void onSuccess(int statusCode, Headers headers, ResetPasswordResponse response) {
-                if (statusCode >= 200){
-                    callback.onResetPassword();
-                }
+            public void onSuccess(ResetPasswordResponse response) {
+                callback.onResetPassword();
             }
 
             @Override
@@ -173,7 +158,7 @@ public class UserRemoteDataSource implements UserDataSource {
     }
 
     @Override
-    public void resendOTPCode(String otpId, ResendOTPCodeCallback callback) {
+    public void resendOTPCode(String otpId, ResendOTPCodeCallbackI callback) {
 
     }
 }

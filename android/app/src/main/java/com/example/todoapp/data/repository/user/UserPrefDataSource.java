@@ -55,37 +55,37 @@ public class UserPrefDataSource implements UserDataSource {
     }
 
     @Override
-    public void login(String phone, String password, LoginCallback callback) {
+    public void login(String phone, String password, LoginCallbackI callback) {
         // do nothing
     }
 
     @Override
-    public void signUp(String phone, String password, String otpId, String otp, SignUpCallback callback) {
+    public void signUp(String phone, String password, String otpId, String otp, SignUpCallbackI callback) {
         // do nothing
     }
 
     @Override
-    public void verifyEmail(String email, VerifyEmailCallback callback) {
+    public void verifyEmail(String email, VerifyEmailCallbackI callback) {
         // do nothing
     }
 
     @Override
-    public void sendOtp(String email, SendOtpCallback callback) {
+    public void sendOtp(String email, SendOtpCallbackI callback) {
         // do nothing
     }
 
     @Override
-    public void resetPassword(String password, String otpId, String otp, ResetPasswordCallback callback) {
+    public void resetPassword(String password, String otpId, String otp, ResetPasswordCallbackI callback) {
         // do nothing
     }
 
     @Override
-    public void resendOTPCode(String otpId, ResendOTPCodeCallback callback) {
+    public void resendOTPCode(String otpId, ResendOTPCodeCallbackI callback) {
         // do nothing
     }
 
     @Override
-    public void changePassword(String password, String otpId, String otp, ChangePasswordCallback callback) {
+    public void changePassword(String password, String otpId, String otp, ChangePasswordCallbackI callback) {
         // do nothing
     }
 }
