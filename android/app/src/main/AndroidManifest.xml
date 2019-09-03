@@ -18,7 +18,6 @@
         <activity android:name=".ui.signup.SignUpActivity" />
         <activity android:name=".ui.main.MainActivity" />
         <activity android:name=".ui.login.LoginActivity" />
-        <activity android:name=".ui.home.HomeActivity" />
         <activity android:name=".ui.addtodo.AddTodoActivity" />
         <activity android:name=".ui.splash.SplashActivity">
             <intent-filter>

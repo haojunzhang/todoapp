@@ -7,3 +7,11 @@ class CreateTodoSerializer(serializers.Serializer):
 
 class GetTodoSerializer(serializers.Serializer):
     pass
+
+
+class GetTodoListSerializer(serializers.Serializer):
+
+    def to_representation(self, instance):
+        return {
+            'content': instance.content
+        }

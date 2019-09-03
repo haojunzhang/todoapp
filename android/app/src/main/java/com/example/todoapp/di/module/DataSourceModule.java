@@ -59,6 +59,6 @@ public class DataSourceModule {
     @Provides
     @Remote
     TodoDataSource provideTodoRemoteDataSource(TodoService mTodoService){
-        return new TodoRemoteDataSource();
+        return new TodoRemoteDataSource(mTodoService);
     }
 }

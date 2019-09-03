@@ -10,6 +10,6 @@ public abstract class HomeModule {
     abstract HomeContract.Presenter provideHomePresenter(HomePresenter mHomePresenter);
 
     @Binds
-    abstract HomeContract.View provideHomeView(HomeActivity homeActivity);
+    abstract HomeContract.View provideHomeView(HomeFragment mHomeFragment);
 
 }

@@ -1,19 +1,21 @@
 package com.example.todoapp.data.repository.todo;
 
 import com.example.todoapp.data.entity.Todo;
+import com.example.todoapp.data.network.todoapp.IDataSourceErrorCallback;
 
 import java.util.List;
 
 public interface TodoDataSource {
 
-    // Get todo list
-    interface GetTodoListCallback {
+    void setTodoList(List<Todo> todoList);
+
+    List<Todo> getTodoList();
+
+    interface GetTodoListCallback extends IDataSourceErrorCallback {
         void onGetTodoList(List<Todo> list);
     }
 
-    void getTodoList(GetTodoListCallback callback);
-
-    // Add todo
+    void getTodoList(int page, GetTodoListCallback callback);
 
     interface AddTodoCallback {
         void onAddTodo(boolean success, Todo todo);
@@ -22,8 +24,7 @@ public interface TodoDataSource {
     void addTodo(Todo todo, AddTodoCallback callback);
 
 
-    // delete todo
-    interface DeleteTodoCallback{
+    interface DeleteTodoCallback {
         void onDeleteTodo(boolean success);
     }
 

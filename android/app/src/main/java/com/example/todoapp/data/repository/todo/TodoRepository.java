@@ -3,31 +3,45 @@ package com.example.todoapp.data.repository.todo;
 import com.example.todoapp.data.entity.Todo;
 import com.example.todoapp.di.qualifier.Remote;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
 public class TodoRepository implements TodoDataSource {
 
-    private final TodoDataSource mTodoCacheDataSource;
+    private final TodoDataSource mTodoRemoteDataSource;
+
+    private List<Todo> todoList;
 
     @Inject
-    public TodoRepository(@Remote TodoDataSource mTodoCacheDataSource) {
-        this.mTodoCacheDataSource = mTodoCacheDataSource;
+    public TodoRepository(@Remote TodoDataSource mTodoRemoteDataSource) {
+        this.mTodoRemoteDataSource = mTodoRemoteDataSource;
     }
 
     @Override
-    public void getTodoList(GetTodoListCallback callback) {
-        mTodoCacheDataSource.getTodoList(callback);
+    public void setTodoList(List<Todo> todoList) {
+        this.todoList = todoList;
+    }
+
+    @Override
+    public List<Todo> getTodoList() {
+        return todoList;
+    }
+
+    @Override
+    public void getTodoList(int page, GetTodoListCallback callback) {
+        mTodoRemoteDataSource.getTodoList(page, callback);
     }
 
     @Override
     public void addTodo(Todo todo, AddTodoCallback callback) {
-        mTodoCacheDataSource.addTodo(todo, callback);
+        mTodoRemoteDataSource.addTodo(todo, callback);
     }
 
     @Override
     public void deleteTodo(String id, DeleteTodoCallback callback) {
-        mTodoCacheDataSource.deleteTodo(id, callback);
+        mTodoRemoteDataSource.deleteTodo(id, callback);
     }
 }

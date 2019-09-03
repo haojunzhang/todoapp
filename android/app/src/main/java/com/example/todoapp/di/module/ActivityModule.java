@@ -3,8 +3,6 @@ package com.example.todoapp.di.module;
 
 import com.example.todoapp.ui.forgotpassword.ForgotPasswordActivity;
 import com.example.todoapp.ui.forgotpassword.ForgotPasswordModule;
-import com.example.todoapp.ui.home.HomeActivity;
-import com.example.todoapp.ui.home.HomeModule;
 import com.example.todoapp.ui.login.LoginActivity;
 import com.example.todoapp.ui.login.LoginModule;
 import com.example.todoapp.ui.main.MainActivity;
@@ -20,9 +18,6 @@ import dagger.android.ContributesAndroidInjector;
 
 @Module
 public abstract class ActivityModule {
-
-    @ContributesAndroidInjector(modules = HomeModule.class)
-    abstract HomeActivity provideHomeActivity();
 
     @ContributesAndroidInjector(modules = SplashModule.class)
     abstract SplashActivity provideSplashActivity();

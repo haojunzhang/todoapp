@@ -7,6 +7,7 @@ import com.example.todoapp.data.network.todoapp.request.SendOtpRequest;
 import com.example.todoapp.data.network.todoapp.request.SignUpRequest;
 import com.example.todoapp.data.network.todoapp.request.VerifyEmailRequest;
 
+import java.lang.ref.Reference;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -35,7 +36,7 @@ public interface ITodoService {
 
     @POST("users/email/")
     Call<String> verifyEmail(@HeaderMap Map<String, String> headers,
-                         @Body VerifyEmailRequest request);
+                             @Body VerifyEmailRequest request);
 
     @POST("otps/")
     Call<String> sendOtp(@HeaderMap Map<String, String> headers,
@@ -54,4 +55,10 @@ public interface ITodoService {
     Call<String> getUserProfile(@HeaderMap Map<String, String> headers,
                                 @Path("userId") String userId,
                                 @Query("ts") String ts);
+
+    @GET("todos/")
+    Call<String> getTodoList(@HeaderMap Map<String, String> headers,
+                             @Query("page") String page,
+                             @Query("page_size") String pageSize,
+                             @Query("ts") String ts);
 }

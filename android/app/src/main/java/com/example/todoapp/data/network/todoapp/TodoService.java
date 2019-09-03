@@ -227,4 +227,18 @@ public class TodoService {
                 getSignature(params, getUserPrivateKey())
         ), getUserId(), ts).enqueue(callBack);
     }
+
+    public void getTodoList(int iPage, BaseTodoServiceCallBack callBack) {
+        String ts = DateTimeUtils.getUnixTime();
+        String page = String.valueOf(iPage);
+        String pageSize = "10";
+
+        String params = String.format("page=%s&page_size=%s&ts=%s", page, pageSize, ts);
+
+        mService.getTodoList(getHeaders(
+                TodoConst.User.Type.TODO_USER,
+                getUserToken(),
+                getSignature(params, getUserPrivateKey())
+        ), page, pageSize, ts).enqueue(callBack);
+    }
 }

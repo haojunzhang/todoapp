@@ -12,11 +12,13 @@ public interface HomeContract {
 
         void showEmptyTodoList();
 
-        void openAddTodoActivity();
-
         void showDeleteSuccessMessage();
 
         void showDeleteFailMessage();
+
+        void showLoadingTodoListView();
+
+        void dismissLoadingTodoListView();
     }
 
     interface Presenter extends BasePresenter {
