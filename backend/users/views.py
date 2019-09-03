@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from .serializers.otp import SendOtpSerializer
-from .serializers.users import SignUpSerializer, UserDisplaySerializer, LoginSerializer, EmailSerializer, \
+from .serializers.users import SignUpSerializer, LoginSerializer, \
     VerifyEmailSerializer, ResetPasswordSerializer
 
 from .models import TodoUser
@@ -17,17 +17,9 @@ from core.exceptions.user import LoginFailed, UserAlreadyExist, UserDoesNotExist
 
 class UserViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin,
                   mixins.RetrieveModelMixin, GenericViewSet):
-    lookup_filed = 'pub_id'
-
-    def get_serializer_class(self):
-        if self.action == 'create':
-            serializer_class = SignUpSerializer
-        elif self.action == 'retrieve':
-            serializer_class = UserDisplaySerializer
-        return serializer_class
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
+        serializer = SignUpSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         validated_data = serializer.validated_data
 

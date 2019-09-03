@@ -16,6 +16,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from rest_framework import routers
+
+from todos.views import TodoViewSet
 from users.views import UserViewSet, OtpViewSet
 
 urlpatterns = [
@@ -25,5 +27,6 @@ urlpatterns = [
 router = routers.SimpleRouter()
 router.register('users', UserViewSet, base_name='user')
 router.register('otps', OtpViewSet, base_name='otp')
+router.register('todos', TodoViewSet, base_name='todo')
 
 urlpatterns += router.urls

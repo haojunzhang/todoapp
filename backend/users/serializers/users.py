@@ -4,18 +4,6 @@ from core.key_utils import decrypt, APP_USER_ENC_PRI_KEY
 from users.services import UserService
 
 
-class UserDisplaySerializer(serializers.Serializer):
-
-    def to_representation(self, instance):
-        result = {
-            'user_id': instance.pub_id,
-            'email': instance.email,
-            'phone': instance.phone,
-            'name': instance.name
-        }
-        return result
-
-
 class EmailSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
 
