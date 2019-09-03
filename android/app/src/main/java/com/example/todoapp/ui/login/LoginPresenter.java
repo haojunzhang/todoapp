@@ -56,7 +56,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                 new Handler(Looper.getMainLooper()).post(() -> {
                     // in main thread
 
-                    mUserRepository.login(email, password, new UserDataSource.LoginCallbackI() {
+                    mUserRepository.login(email, password, new UserDataSource.LoginCallback() {
                         @Override
                         public void onLogin(String userId, String userToken) {
                             mView.dismissLoadingView();

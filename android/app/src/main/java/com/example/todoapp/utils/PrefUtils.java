@@ -10,7 +10,7 @@ public class PrefUtils {
     public static final String USER_PRIVATE_KEY = "user_private_key";
     public static final String USER_PUBLIC_KEY = "user_public_key";
     public static final String IS_LOGIN = "is_login";
-    public static final String EMAIL = "email";
+    public static final String USER_PROFILE = "user_profile";
 
     private final SharedPreferences mSharedPreferences;
 

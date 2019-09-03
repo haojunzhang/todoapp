@@ -1,7 +1,9 @@
 package com.example.todoapp.data.repository.user;
 
+import com.example.todoapp.data.entity.UserProfile;
 import com.example.todoapp.data.network.todoapp.BaseTodoServiceCallBack;
 import com.example.todoapp.data.network.todoapp.response.ChangePasswordResponse;
+import com.example.todoapp.data.network.todoapp.response.GetUserProfileResponse;
 import com.example.todoapp.data.network.todoapp.response.LoginResponse;
 import com.example.todoapp.data.network.todoapp.response.LogoutResponse;
 import com.example.todoapp.data.network.todoapp.TodoService;
@@ -42,12 +44,12 @@ public class UserRemoteDataSource implements UserDataSource {
     }
 
     @Override
-    public void setEmail(String email) {
-        // do nothing
+    public void setUserProfile(UserProfile userProfile) {
+// do nothing
     }
 
     @Override
-    public String getEmail() {
+    public UserProfile getUserProfile() {
         // do nothing
         return null;
     }
@@ -68,7 +70,7 @@ public class UserRemoteDataSource implements UserDataSource {
     }
 
     @Override
-    public void login(String phone, String password, LoginCallbackI callback) {
+    public void login(String phone, String password, LoginCallback callback) {
         mTodoService.login(phone, password, new BaseTodoServiceCallBack<LoginResponse>(LoginResponse.class) {
             @Override
             public void onSuccess(LoginResponse response) {
@@ -83,7 +85,7 @@ public class UserRemoteDataSource implements UserDataSource {
     }
 
     @Override
-    public void signUp(String email, String password, String otpId, String otp, SignUpCallbackI callback) {
+    public void signUp(String email, String password, String otpId, String otp, SignUpCallback callback) {
         mTodoService.signUp(email, password, otpId, otp, new BaseTodoServiceCallBack<SignUpResponse>(SignUpResponse.class) {
             @Override
             public void onSuccess(SignUpResponse response) {
@@ -98,7 +100,7 @@ public class UserRemoteDataSource implements UserDataSource {
     }
 
     @Override
-    public void verifyEmail(String email, VerifyEmailCallbackI callback) {
+    public void verifyEmail(String email, VerifyEmailCallback callback) {
         mTodoService.verifyEmail(email, new BaseTodoServiceCallBack<VerifyEmailResponse>(VerifyEmailResponse.class) {
             @Override
             public void onSuccess(VerifyEmailResponse response) {
@@ -113,7 +115,7 @@ public class UserRemoteDataSource implements UserDataSource {
     }
 
     @Override
-    public void sendOtp(String email, SendOtpCallbackI callback) {
+    public void sendOtp(String email, SendOtpCallback callback) {
         mTodoService.sendOtp(email, new BaseTodoServiceCallBack<SendOtpResponse>(SendOtpResponse.class) {
             @Override
             public void onSuccess(SendOtpResponse response) {
@@ -128,7 +130,7 @@ public class UserRemoteDataSource implements UserDataSource {
     }
 
     @Override
-    public void changePassword(String password, String otpId, String otp, ChangePasswordCallbackI callback) {
+    public void changePassword(String password, String otpId, String otp, ChangePasswordCallback callback) {
         mTodoService.changePassword(password, otpId, otp, new BaseTodoServiceCallBack<ChangePasswordResponse>(ChangePasswordResponse.class) {
             @Override
             public void onSuccess(ChangePasswordResponse response) {
@@ -143,7 +145,7 @@ public class UserRemoteDataSource implements UserDataSource {
     }
 
     @Override
-    public void resetPassword(String password, String otpId, String otp, ResetPasswordCallbackI callback) {
+    public void resetPassword(String password, String otpId, String otp, ResetPasswordCallback callback) {
         mTodoService.resetPassword(password, otpId, otp, new BaseTodoServiceCallBack<ResetPasswordResponse>(ResetPasswordResponse.class) {
             @Override
             public void onSuccess(ResetPasswordResponse response) {
@@ -158,7 +160,23 @@ public class UserRemoteDataSource implements UserDataSource {
     }
 
     @Override
-    public void resendOTPCode(String otpId, ResendOTPCodeCallbackI callback) {
+    public void getUserProfile(GetProfileCallback callback) {
+        mTodoService.getUserProfile(new BaseTodoServiceCallBack<GetUserProfileResponse>(GetUserProfileResponse.class){
+
+            @Override
+            public void onSuccess(GetUserProfileResponse response) {
+                callback.onGetProfile(response.getUser_id(), response.getEmail());
+            }
+
+            @Override
+            public void onError(Throwable throwable, ErrorResponse errorResponse) {
+
+            }
+        });
+    }
+
+    @Override
+    public void resendOTPCode(String otpId, ResendOTPCodeCallback callback) {
 
     }
 }

@@ -1,7 +1,9 @@
 package com.example.todoapp.data.repository.user;
 
+import com.example.todoapp.data.entity.UserProfile;
 import com.example.todoapp.data.repository.keystore.KeyStoreRepository;
 import com.example.todoapp.utils.PrefUtils;
+import com.google.gson.Gson;
 
 public class UserPrefDataSource implements UserDataSource {
 
@@ -38,15 +40,21 @@ public class UserPrefDataSource implements UserDataSource {
     }
 
     @Override
-    public void setEmail(String email) {
-        String encryptedEmail = mKeyStoreRepository.encrypt(email);
-        mPrefUtils.setString(PrefUtils.EMAIL, encryptedEmail);
+    public void setUserProfile(UserProfile userProfile) {
+        String json = new Gson().toJson(userProfile);
+        String encryptedUserProfile = mKeyStoreRepository.encrypt(json);
+        mPrefUtils.setString(PrefUtils.USER_PROFILE, encryptedUserProfile);
     }
 
     @Override
-    public String getEmail() {
-        String encryptedEmail = mPrefUtils.getString(PrefUtils.EMAIL);
-        return mKeyStoreRepository.decrypt(encryptedEmail);
+    public UserProfile getUserProfile() {
+        String encryptedUserProfile = mPrefUtils.getString(PrefUtils.USER_PROFILE);
+        String json = mKeyStoreRepository.decrypt(encryptedUserProfile);
+        UserProfile userProfile = new Gson().fromJson(json, UserProfile.class);
+        if (userProfile == null) {
+            userProfile = new UserProfile();
+        }
+        return userProfile;
     }
 
     @Override
@@ -55,37 +63,42 @@ public class UserPrefDataSource implements UserDataSource {
     }
 
     @Override
-    public void login(String phone, String password, LoginCallbackI callback) {
+    public void login(String phone, String password, LoginCallback callback) {
         // do nothing
     }
 
     @Override
-    public void signUp(String phone, String password, String otpId, String otp, SignUpCallbackI callback) {
+    public void signUp(String phone, String password, String otpId, String otp, SignUpCallback callback) {
         // do nothing
     }
 
     @Override
-    public void verifyEmail(String email, VerifyEmailCallbackI callback) {
+    public void verifyEmail(String email, VerifyEmailCallback callback) {
         // do nothing
     }
 
     @Override
-    public void sendOtp(String email, SendOtpCallbackI callback) {
+    public void sendOtp(String email, SendOtpCallback callback) {
         // do nothing
     }
 
     @Override
-    public void resetPassword(String password, String otpId, String otp, ResetPasswordCallbackI callback) {
+    public void resetPassword(String password, String otpId, String otp, ResetPasswordCallback callback) {
         // do nothing
     }
 
     @Override
-    public void resendOTPCode(String otpId, ResendOTPCodeCallbackI callback) {
+    public void resendOTPCode(String otpId, ResendOTPCodeCallback callback) {
         // do nothing
     }
 
     @Override
-    public void changePassword(String password, String otpId, String otp, ChangePasswordCallbackI callback) {
+    public void getUserProfile(GetProfileCallback callback) {
+        // do nothing
+    }
+
+    @Override
+    public void changePassword(String password, String otpId, String otp, ChangePasswordCallback callback) {
         // do nothing
     }
 }

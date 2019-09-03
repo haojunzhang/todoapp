@@ -37,6 +37,7 @@ public class SettingFragment extends BaseFragment implements SettingContract.Vie
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mPresenter.showUI();
+        mPresenter.getUserProfile();
     }
 
     @OnClick(R.id.btnLogout)

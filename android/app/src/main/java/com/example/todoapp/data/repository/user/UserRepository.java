@@ -1,5 +1,6 @@
 package com.example.todoapp.data.repository.user;
 
+import com.example.todoapp.data.entity.UserProfile;
 import com.example.todoapp.di.qualifier.Pref;
 import com.example.todoapp.di.qualifier.Remote;
 
@@ -14,7 +15,7 @@ public class UserRepository implements UserDataSource {
 
     private String userId;
     private String userToken;
-    private String email;
+    private UserProfile userProfile;
 
     @Inject
     public UserRepository(@Pref UserDataSource mUserPrefDataSource, @Remote UserDataSource mUserRemoteDataSource) {
@@ -57,20 +58,20 @@ public class UserRepository implements UserDataSource {
     }
 
     @Override
-    public void setEmail(String email) {
+    public void setUserProfile(UserProfile userProfile) {
         // set cache
-        this.email = email;
+        this.userProfile = userProfile;
 
         // set pref
-        mUserPrefDataSource.setEmail(email);
+        mUserPrefDataSource.setUserProfile(userProfile);
     }
 
     @Override
-    public String getEmail() {
-        if (email == null) {
-            email = mUserPrefDataSource.getEmail();
+    public UserProfile getUserProfile() {
+        if (userProfile == null) {
+            userProfile = mUserPrefDataSource.getUserProfile();
         }
-        return email;
+        return userProfile;
     }
 
     @Override
@@ -85,37 +86,42 @@ public class UserRepository implements UserDataSource {
     }
 
     @Override
-    public void login(String phone, String password, LoginCallbackI callback) {
+    public void login(String phone, String password, LoginCallback callback) {
         mUserRemoteDataSource.login(phone, password, callback);
     }
 
     @Override
-    public void signUp(String email, String password, String otpId, String otp, SignUpCallbackI callback) {
+    public void signUp(String email, String password, String otpId, String otp, SignUpCallback callback) {
         mUserRemoteDataSource.signUp(email, password, otpId, otp, callback);
     }
 
     @Override
-    public void verifyEmail(String email, VerifyEmailCallbackI callback) {
+    public void verifyEmail(String email, VerifyEmailCallback callback) {
         mUserRemoteDataSource.verifyEmail(email, callback);
     }
 
     @Override
-    public void sendOtp(String email, SendOtpCallbackI callback) {
+    public void sendOtp(String email, SendOtpCallback callback) {
         mUserRemoteDataSource.sendOtp(email, callback);
     }
 
     @Override
-    public void resetPassword(String password, String otpId, String otp, ResetPasswordCallbackI callback) {
+    public void resetPassword(String password, String otpId, String otp, ResetPasswordCallback callback) {
         mUserRemoteDataSource.resetPassword(password, otpId, otp, callback);
     }
 
     @Override
-    public void resendOTPCode(String otpId, ResendOTPCodeCallbackI callback) {
+    public void resendOTPCode(String otpId, ResendOTPCodeCallback callback) {
         mUserRemoteDataSource.resendOTPCode(otpId, callback);
     }
 
     @Override
-    public void changePassword(String password, String otpId, String otp, ChangePasswordCallbackI callback) {
+    public void getUserProfile(GetProfileCallback callback) {
+        mUserRemoteDataSource.getUserProfile(callback);
+    }
+
+    @Override
+    public void changePassword(String password, String otpId, String otp, ChangePasswordCallback callback) {
         mUserRemoteDataSource.changePassword(password, otpId, otp, callback);
     }
 }

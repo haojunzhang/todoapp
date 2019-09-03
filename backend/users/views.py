@@ -48,7 +48,7 @@ class UserViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin,
         )
 
     def retrieve(self, request, *args, **kwargs):
-        user = request.todo_user
+        user = request.user_object
         return Response(
             data={
                 'user_id': user.pub_id,

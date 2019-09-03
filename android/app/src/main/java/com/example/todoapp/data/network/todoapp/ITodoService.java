@@ -12,6 +12,7 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.GET;
 import retrofit2.http.HeaderMap;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -30,7 +31,7 @@ public interface ITodoService {
 
     @DELETE("users/user_token/")
     Call<String> logout(@HeaderMap Map<String, String> headers,
-                        @Query("ts") String uts);
+                        @Query("ts") String ts);
 
     @POST("users/email/")
     Call<String> verifyEmail(@HeaderMap Map<String, String> headers,
@@ -49,4 +50,8 @@ public interface ITodoService {
     Call<String> resetPassword(@HeaderMap Map<String, String> headers,
                                @Body ResetPasswordRequest request);
 
+    @GET("users/{userId}/")
+    Call<String> getUserProfile(@HeaderMap Map<String, String> headers,
+                                @Path("userId") String userId,
+                                @Query("ts") String ts);
 }

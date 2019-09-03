@@ -1,5 +1,6 @@
 package com.example.todoapp.data.repository.user;
 
+import com.example.todoapp.data.entity.UserProfile;
 import com.example.todoapp.data.network.todoapp.IDataSourceErrorCallback;
 
 public interface UserDataSource {
@@ -14,51 +15,56 @@ public interface UserDataSource {
 
     void logout();
 
-    void setEmail(String email);
+    void setUserProfile(UserProfile userProfile);
 
-    String getEmail();
+    UserProfile getUserProfile();
 
-    interface LoginCallbackI extends IDataSourceErrorCallback {
+    interface LoginCallback extends IDataSourceErrorCallback {
         void onLogin(String userId, String userToken);
     }
 
-    void login(String email, String password, LoginCallbackI callback);
+    void login(String email, String password, LoginCallback callback);
 
 
-
-    interface SignUpCallbackI extends IDataSourceErrorCallback {
+    interface SignUpCallback extends IDataSourceErrorCallback {
         void onSignUp(String userId, String userToken);
     }
 
-    void signUp(String phone, String password, String otpId, String otp, SignUpCallbackI callback);
+    void signUp(String phone, String password, String otpId, String otp, SignUpCallback callback);
 
-    interface VerifyEmailCallbackI extends IDataSourceErrorCallback {
+    interface VerifyEmailCallback extends IDataSourceErrorCallback {
         void onVerifyEmail(String otpId);
     }
 
-    void verifyEmail(String email, VerifyEmailCallbackI callback);
+    void verifyEmail(String email, VerifyEmailCallback callback);
 
-    interface SendOtpCallbackI extends IDataSourceErrorCallback {
+    interface SendOtpCallback extends IDataSourceErrorCallback {
         void onSendOtp(String otpId);
     }
 
-    void sendOtp(String email, SendOtpCallbackI callback);
+    void sendOtp(String email, SendOtpCallback callback);
 
-    interface ResetPasswordCallbackI extends IDataSourceErrorCallback {
+    interface ResetPasswordCallback extends IDataSourceErrorCallback {
         void onResetPassword();
     }
 
-    void resetPassword(String password, String otpId, String otp, ResetPasswordCallbackI callback);
+    void resetPassword(String password, String otpId, String otp, ResetPasswordCallback callback);
 
-    interface ResendOTPCodeCallbackI extends IDataSourceErrorCallback {
+    interface ResendOTPCodeCallback extends IDataSourceErrorCallback {
         void onResendOTPCode(String otpId);
     }
 
-    void resendOTPCode(String otpId, ResendOTPCodeCallbackI callback);
+    void resendOTPCode(String otpId, ResendOTPCodeCallback callback);
 
-    interface ChangePasswordCallbackI extends IDataSourceErrorCallback {
+    interface GetProfileCallback extends IDataSourceErrorCallback {
+        void onGetProfile(String userId, String email);
+    }
+
+    void getUserProfile(GetProfileCallback callback);
+
+    interface ChangePasswordCallback extends IDataSourceErrorCallback {
         void onChangePassword(String userToken);
     }
 
-    void changePassword(String password, String otpId, String otp, ChangePasswordCallbackI callback);
+    void changePassword(String password, String otpId, String otp, ChangePasswordCallback callback);
 }

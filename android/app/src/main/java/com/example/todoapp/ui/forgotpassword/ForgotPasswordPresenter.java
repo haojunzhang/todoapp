@@ -26,7 +26,7 @@ public class ForgotPasswordPresenter implements ForgotPasswordContract.Presenter
         }
 
         mView.showLoadingView();
-        mUserRepository.sendOtp(email, new UserDataSource.SendOtpCallbackI() {
+        mUserRepository.sendOtp(email, new UserDataSource.SendOtpCallback() {
             @Override
             public void onSendOtp(String otpId) {
                 mView.dismissLoadingView();

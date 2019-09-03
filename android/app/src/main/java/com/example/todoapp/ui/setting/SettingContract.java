@@ -16,5 +16,7 @@ public interface SettingContract {
         void showUI();
 
         void logout();
+
+        void getUserProfile();
     }
 }
