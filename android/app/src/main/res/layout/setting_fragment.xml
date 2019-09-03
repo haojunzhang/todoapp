@@ -5,6 +5,11 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/tvEmail"
+        style="@style/AppTheme.Widget.TextView" />
+
+    <TextView
+        android:id="@+id/btnLogout"
         style="@style/AppTheme.Widget.TextView"
-        android:text="setting" />
+        android:text="@string/logout" />
 </LinearLayout>

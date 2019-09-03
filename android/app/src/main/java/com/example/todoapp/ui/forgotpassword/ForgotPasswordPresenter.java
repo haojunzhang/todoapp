@@ -36,7 +36,7 @@ public class ForgotPasswordPresenter implements ForgotPasswordContract.Presenter
 
             @Override
             public void onError(Throwable throwable, ErrorResponse errorResponse) {
-                mView.handleTodoPocketServiceError(throwable, errorResponse);
+                mView.handleTodoServiceError(throwable, errorResponse);
             }
         });
     }

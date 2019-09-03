@@ -61,9 +61,9 @@ class TimeStampCheckMiddleware(MiddlewareMixin):
             return ResponseInvalidTimeStamp
 
         diff_millisecond = get_timestamp() - int(ts)
-
-        # if diff_millisecond > 1000:
-        #     return ResponseInvalidTimeStamp
+        print(f'diff_millisecond:{diff_millisecond}')
+        if diff_millisecond > 1000:
+            return ResponseInvalidTimeStamp
 
 
 # ensure data not be changed
@@ -86,5 +86,6 @@ class VerifySignatureMiddleware(MiddlewareMixin):
             # msg_hash = SHA256.new(b64encode(request.body))
             text = request.body.decode()
         print(f'request:{text}')
+
         if not verify(text, signature, rsa_import_key_string(request.user_cache_object['user_sign_pub_key'])):
             return ResponseInvalidSignature

@@ -30,7 +30,7 @@ public interface ITodoService {
 
     @DELETE("users/user_token/")
     Call<String> logout(@HeaderMap Map<String, String> headers,
-                        @Query("uts") String uts);
+                        @Query("ts") String uts);
 
     @POST("users/email/")
     Call<String> verifyEmail(@HeaderMap Map<String, String> headers,

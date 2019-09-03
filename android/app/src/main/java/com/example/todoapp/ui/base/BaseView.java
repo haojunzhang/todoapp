@@ -8,7 +8,7 @@ public interface BaseView {
 
     void dismissLoadingView();
 
-    void handleTodoPocketServiceError(Throwable throwable, ErrorResponse errorResponse);
+    void handleTodoServiceError(Throwable throwable, ErrorResponse errorResponse);
 
     void finishActivity();
 }

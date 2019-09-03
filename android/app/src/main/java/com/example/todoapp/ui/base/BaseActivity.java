@@ -6,16 +6,29 @@ import android.view.LayoutInflater;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.example.todoapp.R;
 import com.example.todoapp.data.network.todoapp.error.ErrorResponse;
 import com.example.todoapp.utils.ErrorCodeUtils;
 import com.example.todoapp.utils.LogUtils;
+import com.example.todoapp.utils.LogoutUtils;
+
+import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import dagger.android.AndroidInjection;
+import dagger.android.AndroidInjector;
+import dagger.android.DispatchingAndroidInjector;
+import dagger.android.support.HasSupportFragmentInjector;
 
-public class BaseActivity extends AppCompatActivity implements BaseView {
+public class BaseActivity extends AppCompatActivity implements HasSupportFragmentInjector,BaseView {
+
+    @Inject
+    DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
+
+    @Inject
+    LogoutUtils mLogoutUtils;
 
     private AlertDialog loadingDialog;
 
@@ -27,6 +40,11 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
 
         // DI inject
         AndroidInjection.inject(this);
+    }
+
+    @Override
+    public AndroidInjector<Fragment> supportFragmentInjector() {
+        return dispatchingAndroidInjector;
     }
 
     @Override
@@ -50,7 +68,7 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
     }
 
     @Override
-    public void handleTodoPocketServiceError(Throwable throwable, ErrorResponse errorResponse) {
+    public void handleTodoServiceError(Throwable throwable, ErrorResponse errorResponse) {
         dismissLoadingView();
         String code = ErrorCodeUtils.getCode(throwable, errorResponse);
         String message = ErrorCodeUtils.getMessage(this, code, throwable, errorResponse);
@@ -67,5 +85,9 @@ public class BaseActivity extends AppCompatActivity implements BaseView {
                 .setMessage(text)
                 .setPositiveButton(R.string.confirm, null)
                 .show();
+    }
+
+    public void logout() {
+        mLogoutUtils.logout();
     }
 }

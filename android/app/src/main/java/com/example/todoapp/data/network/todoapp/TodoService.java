@@ -149,14 +149,14 @@ public class TodoService {
         String userToken = getUserToken();
         String userPrivateKey = getUserPrivateKey();
 
-        String uts = DateTimeUtils.getUnixTime();
+        String ts = DateTimeUtils.getUnixTime();
 
-        String params = String.format("uts=%s", uts);
+        String params = String.format("ts=%s", ts);
 
         mService.logout(getHeaders(
                 TodoConst.User.Type.TODO_USER,
                 userToken,
-                getSignature(params, userPrivateKey)), uts).enqueue(callback);
+                getSignature(params, userPrivateKey)), ts).enqueue(callback);
     }
 
     public void verifyEmail(String email, BaseTodoServiceCallBack callback) {

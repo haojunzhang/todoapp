@@ -94,7 +94,7 @@ class UserViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin,
 
         # check password
         if user.check_password(validated_data['password']):
-            user.sign_pub_key = validated_data['user_sign_pub_key']
+            user.user_sign_pub_key = validated_data['user_sign_pub_key']
             user.save(update_fields=['user_sign_pub_key', 'modified'])
 
             return Response(
@@ -108,8 +108,11 @@ class UserViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin,
             raise LoginFailed()
 
     @action(methods=['delete'], detail=False)
-    def logout(self, request):
-        user = request.todo_user
+    def user_token(self, request):
+        """
+        logout
+        """
+        user = request.user_object
 
         # clear token
         UserService.logout(user)

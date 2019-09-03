@@ -92,7 +92,7 @@ X-TODO-SIGNATURE (UserSign)
 ```
 #### Url參數
 ```
-http://domain/users/user-token/?ts=1566618441000
+http://domain/users/user_token/?ts=1566618441000
 ```
 #### 回應
 ```

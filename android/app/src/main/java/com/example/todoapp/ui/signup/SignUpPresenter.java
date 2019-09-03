@@ -55,7 +55,7 @@ public class SignUpPresenter implements SignUpContract.Presenter {
 
             @Override
             public void onError(Throwable throwable, ErrorResponse errorResponse) {
-                mView.handleTodoPocketServiceError(throwable, errorResponse);
+                mView.handleTodoServiceError(throwable, errorResponse);
             }
         });
     }
@@ -106,7 +106,7 @@ public class SignUpPresenter implements SignUpContract.Presenter {
 
                         @Override
                         public void onError(Throwable throwable, ErrorResponse errorResponse) {
-                            mView.handleTodoPocketServiceError(throwable, errorResponse);
+                            mView.handleTodoServiceError(throwable, errorResponse);
                         }
                     });
                 });

@@ -47,7 +47,7 @@ public class ResetPasswordPresenter implements ResetPasswordContract.Presenter {
 
             @Override
             public void onError(Throwable throwable, ErrorResponse errorResponse) {
-                mView.handleTodoPocketServiceError(throwable, errorResponse);
+                mView.handleTodoServiceError(throwable, errorResponse);
             }
         });
     }

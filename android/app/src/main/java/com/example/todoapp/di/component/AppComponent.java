@@ -3,6 +3,7 @@ package com.example.todoapp.di.component;
 import com.example.todoapp.di.module.ActivityModule;
 import com.example.todoapp.di.module.AppModule;
 import com.example.todoapp.di.module.DataSourceModule;
+import com.example.todoapp.di.module.FragmentModule;
 import com.example.todoapp.di.module.NetworkModule;
 import com.example.todoapp.ui.base.App;
 
@@ -19,7 +20,8 @@ import dagger.android.AndroidInjectionModule;
                 AppModule.class,
                 NetworkModule.class,
                 DataSourceModule.class,
-                ActivityModule.class
+                ActivityModule.class,
+                FragmentModule.class
         }
 )
 public interface AppComponent {

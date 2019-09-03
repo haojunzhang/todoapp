@@ -9,6 +9,7 @@ import com.example.todoapp.data.repository.keystore.KeyStoreRepository;
 import com.example.todoapp.data.repository.user.UserDataSource;
 import com.example.todoapp.data.repository.user.UserRepository;
 import com.example.todoapp.utils.SignatureUtils;
+import com.example.todoapp.utils.StringUtils;
 
 import java.security.KeyPair;
 
@@ -32,6 +33,10 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void login(String email, String password) {
+        if (StringUtils.isEmpty(email, password)) {
+            return;
+        }
+
         new Thread(() -> {
             KeyPair keyPair = SignatureUtils.generateRSAKeyPair();
             if (keyPair != null) {
@@ -70,7 +75,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
                         @Override
                         public void onError(Throwable throwable, ErrorResponse errorResponse) {
-                            mView.handleTodoPocketServiceError(throwable, errorResponse);
+                            mView.handleTodoServiceError(throwable, errorResponse);
                         }
                     });
                 });
