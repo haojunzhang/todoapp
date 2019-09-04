@@ -2,18 +2,7 @@ package com.example.todoapp.data.entity;
 
 public class Todo {
     private String id;
-    private String title;
     private String content;
-
-    public Todo(){
-
-    }
-
-    public Todo(String id, String title, String content) {
-        this.id=id;
-        this.title = title;
-        this.content = content;
-    }
 
     public String getId() {
         return id;
@@ -21,14 +10,6 @@ public class Todo {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getContent() {

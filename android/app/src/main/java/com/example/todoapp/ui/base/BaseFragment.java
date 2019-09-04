@@ -67,6 +67,12 @@ public abstract class BaseFragment extends Fragment implements BaseView{
         }
     }
 
+    public void toast(int resId) {
+        if (getBaseActivity() != null) {
+            getBaseActivity().toast(resId);
+        }
+    }
+
     public void logout(){
         if (getBaseActivity() != null) {
             getBaseActivity().logout();

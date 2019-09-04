@@ -19,6 +19,8 @@ public interface HomeContract {
         void showLoadingTodoListView();
 
         void dismissLoadingTodoListView();
+
+        void openAddTodoActivity();
     }
 
     interface Presenter extends BasePresenter {

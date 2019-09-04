@@ -1,5 +1,6 @@
 package com.example.todoapp.data.network.todoapp;
 
+import com.example.todoapp.data.network.todoapp.request.AddTodoRequest;
 import com.example.todoapp.data.network.todoapp.request.ChangePasswordRequest;
 import com.example.todoapp.data.network.todoapp.request.LoginRequest;
 import com.example.todoapp.data.network.todoapp.request.ResetPasswordRequest;
@@ -61,4 +62,8 @@ public interface ITodoService {
                              @Query("page") String page,
                              @Query("page_size") String pageSize,
                              @Query("ts") String ts);
+
+    @POST("todos/")
+    Call<String> addTodo(@HeaderMap Map<String, String> headers,
+                         @Body AddTodoRequest request);
 }

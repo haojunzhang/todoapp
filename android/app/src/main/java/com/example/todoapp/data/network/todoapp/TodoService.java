@@ -1,11 +1,13 @@
 package com.example.todoapp.data.network.todoapp;
 
+import com.example.todoapp.data.network.todoapp.request.AddTodoRequest;
 import com.example.todoapp.data.network.todoapp.request.ChangePasswordRequest;
 import com.example.todoapp.data.network.todoapp.request.LoginRequest;
 import com.example.todoapp.data.network.todoapp.request.ResetPasswordRequest;
 import com.example.todoapp.data.network.todoapp.request.SendOtpRequest;
 import com.example.todoapp.data.network.todoapp.request.SignUpRequest;
 import com.example.todoapp.data.network.todoapp.request.VerifyEmailRequest;
+import com.example.todoapp.data.network.todoapp.response.AddTodoResponse;
 import com.example.todoapp.data.network.todoapp.response.GetUserProfileResponse;
 import com.example.todoapp.data.repository.keystore.KeyStoreRepository;
 import com.example.todoapp.utils.DateTimeUtils;
@@ -240,5 +242,18 @@ public class TodoService {
                 getUserToken(),
                 getSignature(params, getUserPrivateKey())
         ), page, pageSize, ts).enqueue(callBack);
+    }
+
+    public void addTodo(String content, BaseTodoServiceCallBack callBack) {
+
+        AddTodoRequest request = new AddTodoRequest();
+        request.setTs(DateTimeUtils.getUnixTime());
+        request.setContent(content);
+
+        mService.addTodo(getHeaders(
+                TodoConst.User.Type.TODO_USER,
+                getUserToken(),
+                getSignature(request, getUserPrivateKey())
+        ), request).enqueue(callBack);
     }
 }

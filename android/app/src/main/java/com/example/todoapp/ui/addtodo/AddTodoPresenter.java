@@ -3,6 +3,8 @@ package com.example.todoapp.ui.addtodo;
 import android.app.Activity;
 
 import com.example.todoapp.data.entity.Todo;
+import com.example.todoapp.data.network.todoapp.error.ErrorResponse;
+import com.example.todoapp.data.repository.todo.TodoDataSource;
 import com.example.todoapp.data.repository.todo.TodoRepository;
 
 import javax.inject.Inject;
@@ -19,19 +21,25 @@ public class AddTodoPresenter implements AddTodoContract.Presenter {
     }
 
     @Override
-    public void save(String title, String content) {
-        if (title.isEmpty() || content.isEmpty()) {
+    public void save(String content) {
+        if (content.isEmpty()) {
             mView.showEmptyMessage();
             return;
         }
 
 
-        Todo todo = new Todo();
-        todo.setTitle(title);
-        todo.setContent(content);
-        mTodoRepository.addTodo(todo, (success, todo1) -> {
-            if (success) {
-                mView.finish(Activity.RESULT_OK);
+        mView.showLoadingView();
+        mTodoRepository.addTodo(content, new TodoDataSource.AddTodoCallback() {
+            @Override
+            public void onAddTodo() {
+                mView.dismissLoadingView();
+                mView.showSuccessMessage();
+                mView.finishActivityResultOk();
+            }
+
+            @Override
+            public void onError(Throwable throwable, ErrorResponse errorResponse) {
+                mView.handleTodoServiceError(throwable, errorResponse);
             }
         });
     }

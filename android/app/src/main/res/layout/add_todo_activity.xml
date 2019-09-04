@@ -3,26 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <EditText
+        android:id="@+id/etContent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/layout_margin"
-        android:orientation="vertical">
-
-        <EditText
-            android:id="@+id/etTitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/title"
-            android:inputType="text" />
-
-        <EditText
-            android:id="@+id/etContent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/content"
-            android:inputType="text" />
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:background="@drawable/transparent_solid"
+        android:gravity="start|top"
+        android:hint="@string/content"
+        android:inputType="text"
+        android:padding="@dimen/layout_margin"
+        android:textSize="20sp" />
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

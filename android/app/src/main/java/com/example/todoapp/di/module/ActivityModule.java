@@ -1,6 +1,8 @@
 package com.example.todoapp.di.module;
 
 
+import com.example.todoapp.ui.addtodo.AddTodoActivity;
+import com.example.todoapp.ui.addtodo.AddTodoModule;
 import com.example.todoapp.ui.forgotpassword.ForgotPasswordActivity;
 import com.example.todoapp.ui.forgotpassword.ForgotPasswordModule;
 import com.example.todoapp.ui.login.LoginActivity;
@@ -33,6 +35,9 @@ public abstract class ActivityModule {
 
     @ContributesAndroidInjector(modules = ResetPasswordModule.class)
     abstract ResetPasswordActivity provideResetPasswordActivity();
+
+    @ContributesAndroidInjector(modules = AddTodoModule.class)
+    abstract AddTodoActivity provideAddTodoActivity();
 
     @ContributesAndroidInjector
     abstract MainActivity provideMainActivity();

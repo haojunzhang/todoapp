@@ -25,7 +25,7 @@ public class HomePresenter implements HomeContract.Presenter {
         mView.showLoadingTodoListView();
         mTodoRepository.getTodoList(1, new TodoDataSource.GetTodoListCallback() {
             @Override
-            public void onGetTodoList(List<Todo> todoList) {
+            public void onGetTodoList(int count, List<Todo> todoList) {
                 mView.dismissLoadingTodoListView();
 
                 mTodoRepository.setTodoList(todoList);
@@ -51,12 +51,17 @@ public class HomePresenter implements HomeContract.Presenter {
 
     @Override
     public void deleteTodo(Todo todo) {
-        mTodoRepository.deleteTodo(todo.getId(), success -> {
-            if (success) {
-                mView.showDeleteSuccessMessage();
+        mView.showLoadingView();
+        mTodoRepository.deleteTodo(todo.getId(), new TodoDataSource.DeleteTodoCallback() {
+            @Override
+            public void onDeleteTodo() {
+                mView.dismissLoadingView();
                 getTodoList();
-            } else {
-                mView.showDeleteFailMessage();
+            }
+
+            @Override
+            public void onError(Throwable throwable, ErrorResponse errorResponse) {
+                mView.handleTodoServiceError(throwable, errorResponse);
             }
         });
     }

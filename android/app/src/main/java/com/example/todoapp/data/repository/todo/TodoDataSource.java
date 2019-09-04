@@ -12,20 +12,20 @@ public interface TodoDataSource {
     List<Todo> getTodoList();
 
     interface GetTodoListCallback extends IDataSourceErrorCallback {
-        void onGetTodoList(List<Todo> list);
+        void onGetTodoList(int count, List<Todo> list);
     }
 
     void getTodoList(int page, GetTodoListCallback callback);
 
-    interface AddTodoCallback {
-        void onAddTodo(boolean success, Todo todo);
+    interface AddTodoCallback extends IDataSourceErrorCallback{
+        void onAddTodo();
     }
 
-    void addTodo(Todo todo, AddTodoCallback callback);
+    void addTodo(String content, AddTodoCallback callback);
 
 
-    interface DeleteTodoCallback {
-        void onDeleteTodo(boolean success);
+    interface DeleteTodoCallback extends IDataSourceErrorCallback{
+        void onDeleteTodo();
     }
 
     void deleteTodo(String id, DeleteTodoCallback callback);

@@ -36,8 +36,8 @@ public class TodoRepository implements TodoDataSource {
     }
 
     @Override
-    public void addTodo(Todo todo, AddTodoCallback callback) {
-        mTodoRemoteDataSource.addTodo(todo, callback);
+    public void addTodo(String content, AddTodoCallback callback) {
+        mTodoRemoteDataSource.addTodo(content, callback);
     }
 
     @Override

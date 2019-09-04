@@ -19,9 +19,6 @@ public class AddTodoActivity extends BaseActivity implements AddTodoContract.Vie
     @Inject
     AddTodoContract.Presenter mPresenter;
 
-    @BindView(R.id.etTitle)
-    EditText etTitle;
-
     @BindView(R.id.etContent)
     EditText etContent;
 
@@ -34,17 +31,28 @@ public class AddTodoActivity extends BaseActivity implements AddTodoContract.Vie
 
     @OnClick(R.id.btnSave)
     public void onSaveClick(View view) {
-        mPresenter.save(etTitle.getText().toString(), etContent.getText().toString());
+        mPresenter.save(etContent.getText().toString());
     }
 
     @Override
     public void showEmptyMessage() {
-        Toast.makeText(this, R.string.cant_be_empty, Toast.LENGTH_SHORT).show();
+        toast(R.string.cant_be_empty);
     }
 
     @Override
     public void finish(int resultCode) {
         setResult(resultCode);
+        finish();
+    }
+
+    @Override
+    public void showSuccessMessage() {
+        toast(R.string.success);
+    }
+
+    @Override
+    public void finishActivityResultOk() {
+        setResult(RESULT_OK);
         finish();
     }
 }

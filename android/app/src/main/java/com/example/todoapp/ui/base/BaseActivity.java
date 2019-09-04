@@ -2,6 +2,7 @@ package com.example.todoapp.ui.base;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -85,6 +86,14 @@ public class BaseActivity extends AppCompatActivity implements HasSupportFragmen
                 .setMessage(text)
                 .setPositiveButton(R.string.confirm, null)
                 .show();
+    }
+
+    protected void toast(int resId){
+        toast(getString(resId));
+    }
+
+    protected void toast(String text){
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 
     public void logout() {

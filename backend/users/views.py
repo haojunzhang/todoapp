@@ -84,20 +84,25 @@ class UserViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin,
         except TodoUser.DoesNotExist:
             raise LoginFailed()
 
-        # check password
-        if user.check_password(validated_data['password']):
-            user.user_sign_pub_key = validated_data['user_sign_pub_key']
-            user.save(update_fields=['user_sign_pub_key', 'modified'])
 
-            return Response(
-                data={
-                    'user_id': user.pub_id,
-                    'user_token': user.api_token
-                },
-                status=status.HTTP_200_OK
-            )
-        else:
+        # check password
+        if not user.check_password(validated_data['password']):
             raise LoginFailed()
+
+        # update sign pub key
+        user.user_sign_pub_key = validated_data['user_sign_pub_key']
+        user.save(update_fields=['user_sign_pub_key', 'modified'])
+
+        # gen token
+        api_token = UserService.set_login(user)
+
+        return Response(
+            data={
+                'user_id': user.pub_id,
+                'user_token': api_token
+            },
+            status=status.HTTP_200_OK
+        )
 
     @action(methods=['delete'], detail=False)
     def user_token(self, request):

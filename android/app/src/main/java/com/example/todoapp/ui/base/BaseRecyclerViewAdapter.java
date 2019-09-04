@@ -33,6 +33,16 @@ public abstract class BaseRecyclerViewAdapter<T> extends RecyclerView.Adapter<Ba
         notifyDataSetChanged();
     }
 
+    public void showLoading() {
+        list.add(null);
+        notifyItemInserted(list.size() - 1);
+    }
+
+    public void dismissLoading() {
+        list.remove(list.size() - 1);
+        notifyItemRemoved(list.size());
+    }
+
     public List<T> getData() {
         return list;
     }
