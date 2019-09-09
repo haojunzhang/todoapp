@@ -1,35 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/etEmail"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/email"
-        android:inputType="textEmailAddress" />
+        android:layout_centerInParent="true"
+        android:layout_marginStart="@dimen/layout_margin"
+        android:layout_marginEnd="@dimen/layout_margin"
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/etPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/password"
-        android:inputType="textPassword" />
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/email"
+            android:inputType="textEmailAddress" />
 
-    <TextView
-        android:id="@+id/btnLogin"
-        style="@style/AppTheme.Widget.TextView"
-        android:text="@string/login" />
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:hint="@string/password"
+            android:inputType="textPassword" />
 
-    <TextView
-        android:id="@+id/btnSignUp"
-        style="@style/AppTheme.Widget.TextView"
-        android:text="@string/sign_up" />
+        <TextView
+            android:id="@+id/btnLogin"
+            style="@style/AppTheme.Widget.Button"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:background="@drawable/circle_corner_green1_solid"
+            android:text="@string/login" />
 
-    <TextView
-        android:id="@+id/btnForgotPassword"
-        style="@style/AppTheme.Widget.TextView"
-        android:text="@string/forgot_password" />
-</LinearLayout>
+        <TextView
+            android:id="@+id/btnSignUp"
+            style="@style/AppTheme.Widget.Button"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:background="@drawable/circle_corner_green1_solid"
+            android:text="@string/sign_up" />
+
+        <TextView
+            android:id="@+id/btnForgotPassword"
+            style="@style/AppTheme.Widget.TextView"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/layout_margin"
+            android:text="@string/forgot_password" />
+    </LinearLayout>
+</RelativeLayout>
