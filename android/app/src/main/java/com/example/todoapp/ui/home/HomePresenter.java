@@ -50,9 +50,9 @@ public class HomePresenter implements HomeContract.Presenter {
     }
 
     @Override
-    public void deleteTodo(Todo todo) {
+    public void deleteTodo(String id) {
         mView.showLoadingView();
-        mTodoRepository.deleteTodo(todo.getId(), new TodoDataSource.DeleteTodoCallback() {
+        mTodoRepository.deleteTodo(id, new TodoDataSource.DeleteTodoCallback() {
             @Override
             public void onDeleteTodo() {
                 mView.dismissLoadingView();

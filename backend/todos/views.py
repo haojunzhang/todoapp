@@ -1,12 +1,11 @@
-from rest_framework.viewsets import mixins
-from rest_framework.viewsets import GenericViewSet
-from rest_framework.decorators import action
-from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.viewsets import GenericViewSet
+from rest_framework.viewsets import mixins
 
 from core.pagination import TodoPageNumberPagination
 from todos.models import Todo
-from todos.serializers.todo import CreateTodoSerializer, GetTodoSerializer, GetTodoListSerializer, DeleteTodoSerializer
+from todos.serializers.todo import CreateTodoSerializer, GetTodoListSerializer
 from todos.services import TodoService
 
 
@@ -19,6 +18,8 @@ class TodoViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin,
     def get_queryset(self):
         if self.action == 'list':
             return Todo.objects.filter(todo_user=self.request.user_object)
+        elif self.action == 'destroy':
+            return Todo.objects.filter(pub_id=self.kwargs['pub_id'])
         return None
 
     def get_serializer_class(self):
@@ -47,6 +48,6 @@ class TodoViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin,
         )
 
     def destroy(self, request, *args, **kwargs):
-        print(args)
-        print(kwargs)
+        todo = self.get_object()
+        todo.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

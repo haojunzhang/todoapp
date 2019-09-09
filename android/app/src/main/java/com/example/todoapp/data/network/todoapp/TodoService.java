@@ -2,12 +2,14 @@ package com.example.todoapp.data.network.todoapp;
 
 import com.example.todoapp.data.network.todoapp.request.AddTodoRequest;
 import com.example.todoapp.data.network.todoapp.request.ChangePasswordRequest;
+import com.example.todoapp.data.network.todoapp.request.DeleteTodoRequest;
 import com.example.todoapp.data.network.todoapp.request.LoginRequest;
 import com.example.todoapp.data.network.todoapp.request.ResetPasswordRequest;
 import com.example.todoapp.data.network.todoapp.request.SendOtpRequest;
 import com.example.todoapp.data.network.todoapp.request.SignUpRequest;
 import com.example.todoapp.data.network.todoapp.request.VerifyEmailRequest;
 import com.example.todoapp.data.network.todoapp.response.AddTodoResponse;
+import com.example.todoapp.data.network.todoapp.response.DeleteTodoResponse;
 import com.example.todoapp.data.network.todoapp.response.GetUserProfileResponse;
 import com.example.todoapp.data.repository.keystore.KeyStoreRepository;
 import com.example.todoapp.utils.DateTimeUtils;
@@ -255,5 +257,17 @@ public class TodoService {
                 getUserToken(),
                 getSignature(request, getUserPrivateKey())
         ), request).enqueue(callBack);
+    }
+
+    public void deleteTodo(String id, BaseTodoServiceCallBack callBack) {
+        String ts = DateTimeUtils.getUnixTime();
+
+        String params = String.format("ts=%s", ts);
+
+        mService.deleteTodo(getHeaders(
+                TodoConst.User.Type.TODO_USER,
+                getUserToken(),
+                getSignature(params, getUserPrivateKey())
+        ), id, ts).enqueue(callBack);
     }
 }

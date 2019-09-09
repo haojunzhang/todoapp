@@ -61,7 +61,7 @@ class TimeStampCheckMiddleware(MiddlewareMixin):
             return ResponseInvalidTimeStamp
 
         diff_millisecond = get_timestamp() - int(ts)
-        print(f'diff_millisecond:{diff_millisecond}')
+
         if diff_millisecond > 1000:
             return ResponseInvalidTimeStamp
 

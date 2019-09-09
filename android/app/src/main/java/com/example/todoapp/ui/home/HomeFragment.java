@@ -4,13 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -54,7 +51,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
         super.onActivityCreated(savedInstanceState);
 
         rvTodo.setLayoutManager(new LinearLayoutManager(getActivity()));
-        rvTodo.setAdapter(adapter=new TodoAdapter(getActivity(), R.layout.todo_item));
+        rvTodo.setAdapter(adapter = new TodoAdapter(getActivity(), R.layout.todo_item));
 
         mPresenter.getTodoList();
     }
@@ -77,15 +74,20 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
                 holder.setVisible(R.id.progressBar, View.GONE);
 
                 holder.setText(R.id.tvContent, todo.getContent());
-                holder.setOnLongClickListener(R.id.layoutItem, new View.OnLongClickListener() {
-                    @Override
-                    public boolean onLongClick(View view) {
-                        mPresenter.
-                        return false;
-                    }
-                })
+                holder.setOnLongClickListener(R.id.layoutItem, view -> {
+                    showDeleteAlert(todo.getTodo_Id());
+                    return false;
+                });
             }
         }
+    }
+
+    private void showDeleteAlert(String id) {
+        new AlertDialog.Builder(getActivity())
+                .setMessage(R.string.delete_confirm)
+                .setPositiveButton(R.string.confirm, (dialogInterface, i) -> mPresenter.deleteTodo(id))
+                .setNegativeButton(R.string.cancel, null)
+                .show();
     }
 
     @Override

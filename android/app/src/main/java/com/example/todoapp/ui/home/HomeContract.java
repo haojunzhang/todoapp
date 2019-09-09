@@ -28,6 +28,6 @@ public interface HomeContract {
 
         void onAddButtonClick();
 
-        void deleteTodo(Todo todo);
+        void deleteTodo(String id);
     }
 }

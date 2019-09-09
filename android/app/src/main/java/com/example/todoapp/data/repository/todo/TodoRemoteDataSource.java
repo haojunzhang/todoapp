@@ -5,6 +5,7 @@ import com.example.todoapp.data.network.todoapp.BaseTodoServiceCallBack;
 import com.example.todoapp.data.network.todoapp.TodoService;
 import com.example.todoapp.data.network.todoapp.error.ErrorResponse;
 import com.example.todoapp.data.network.todoapp.response.AddTodoResponse;
+import com.example.todoapp.data.network.todoapp.response.DeleteTodoResponse;
 import com.example.todoapp.data.network.todoapp.response.GetTodoListResponse;
 
 import java.util.Collections;
@@ -67,6 +68,17 @@ public class TodoRemoteDataSource implements TodoDataSource {
 
     @Override
     public void deleteTodo(String id, DeleteTodoCallback callback) {
+        mTodoService.deleteTodo(id, new BaseTodoServiceCallBack<DeleteTodoResponse>(DeleteTodoResponse.class) {
 
+            @Override
+            public void onSuccess(DeleteTodoResponse response) {
+                callback.onDeleteTodo();
+            }
+
+            @Override
+            public void onError(Throwable throwable, ErrorResponse errorResponse) {
+                callback.onError(throwable, errorResponse);
+            }
+        });
     }
 }

@@ -66,4 +66,9 @@ public interface ITodoService {
     @POST("todos/")
     Call<String> addTodo(@HeaderMap Map<String, String> headers,
                          @Body AddTodoRequest request);
+
+    @DELETE("todos/{todoId}/")
+    Call<String> deleteTodo(@HeaderMap Map<String, String> headers,
+                         @Path("todoId") String todoId,
+                         @Query("ts") String ts);
 }
