@@ -11,6 +11,8 @@ import javax.inject.Singleton;
 @Singleton
 public class TodoRepository implements TodoDataSource {
 
+    public static final int PAGE_SIZE_LOAD_AT_ONCE = 10;
+
     private final TodoDataSource mTodoRemoteDataSource;
 
     private List<Todo> todoList;

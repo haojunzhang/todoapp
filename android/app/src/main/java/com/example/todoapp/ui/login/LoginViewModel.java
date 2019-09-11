@@ -3,40 +3,46 @@ package com.example.todoapp.ui.login;
 import android.os.Handler;
 import android.os.Looper;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import com.example.todoapp.data.network.todoapp.error.ErrorResponse;
 import com.example.todoapp.data.repository.app.AppRepository;
 import com.example.todoapp.data.repository.keystore.KeyStoreRepository;
 import com.example.todoapp.data.repository.user.UserDataSource;
 import com.example.todoapp.data.repository.user.UserRepository;
+import com.example.todoapp.base.BaseViewModel;
+import com.example.todoapp.data.network.todoapp.ErrorCodeUtils;
 import com.example.todoapp.utils.SignatureUtils;
 import com.example.todoapp.utils.StringUtils;
 
 import java.security.KeyPair;
 
-import javax.inject.Inject;
+public class LoginViewModel extends BaseViewModel {
 
-public class LoginPresenter implements LoginContract.Presenter {
-
-    private final LoginContract.View mView;
     private final UserRepository mUserRepository;
     private final AppRepository mAppRepository;
     private final KeyStoreRepository mKeyStoreRepository;
 
-    @Inject
-    public LoginPresenter(LoginContract.View mView, UserRepository mUserRepository,
-                          AppRepository mAppRepository, KeyStoreRepository mKeyStoreRepository) {
-        this.mView = mView;
+    private final MutableLiveData<Boolean> mIsLoginSuccess = new MutableLiveData<>();
+
+    public LoginViewModel(UserRepository mUserRepository, AppRepository mAppRepository,
+                          KeyStoreRepository mKeyStoreRepository) {
         this.mUserRepository = mUserRepository;
         this.mAppRepository = mAppRepository;
         this.mKeyStoreRepository = mKeyStoreRepository;
     }
 
-    @Override
+    public LiveData<Boolean> isLoginSuccess() {
+        return mIsLoginSuccess;
+    }
+
     public void login(String email, String password) {
         if (StringUtils.isEmpty(email, password)) {
             return;
         }
 
+        mIsLoading.setValue(true);
         new Thread(() -> {
             KeyPair keyPair = SignatureUtils.generateRSAKeyPair();
             if (keyPair != null) {
@@ -59,7 +65,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                     mUserRepository.login(email, password, new UserDataSource.LoginCallback() {
                         @Override
                         public void onLogin(String userId, String userToken) {
-                            mView.dismissLoadingView();
+                            mIsLoading.setValue(false);
 
                             // 存Id, Token
                             mUserRepository.setUserId(userId);
@@ -69,17 +75,19 @@ public class LoginPresenter implements LoginContract.Presenter {
                             mAppRepository.setIsLogin(true);
 
                             // 直接開首頁
-                            mView.openMainActivity();
-                            mView.finishActivity();
+                            mIsLoginSuccess.setValue(true);
                         }
 
                         @Override
                         public void onError(Throwable throwable, ErrorResponse errorResponse) {
-                            mView.handleTodoServiceError(throwable, errorResponse);
+                            mIsLoading.setValue(false);
+                            mErrorCode.setValue(ErrorCodeUtils.getCode(throwable, errorResponse));
                         }
                     });
                 });
             }
         }).start();
     }
+
+
 }

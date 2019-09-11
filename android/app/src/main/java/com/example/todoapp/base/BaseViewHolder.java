@@ -1,4 +1,4 @@
-package com.example.todoapp.ui.base;
+package com.example.todoapp.base;
 
 import android.util.SparseArray;
 import android.view.View;

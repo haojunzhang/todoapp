@@ -5,17 +5,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.todoapp.R;
-import com.example.todoapp.ui.base.BaseActivity;
-
-import javax.inject.Inject;
+import com.example.todoapp.base.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class ResetPasswordActivity extends BaseActivity implements ResetPasswordContract.View {
+public class ResetPasswordActivity extends BaseActivity<ResetPasswordViewModel> {
 
-    @Inject
-    ResetPasswordContract.Presenter mPresenter;
     @BindView(R.id.etPassword)
     EditText etPassword;
 
@@ -25,26 +21,36 @@ public class ResetPasswordActivity extends BaseActivity implements ResetPassword
     @BindView(R.id.etOtp)
     EditText etOtp;
 
+    ResetPasswordViewModel mResetPasswordViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.reset_password_activity);
         super.onCreate(savedInstanceState);
 
-        mPresenter.setExtra(getIntent().getStringExtra("otpId"));
+        initViewModel();
+    }
 
+    private void initViewModel() {
+        mResetPasswordViewModel = obtainViewModel(ResetPasswordViewModel.class);
+        observeBaseLiveData(mResetPasswordViewModel);
+
+        mResetPasswordViewModel.start(getIntent().getStringExtra("otpId"));
+
+        mResetPasswordViewModel.isResetPasswordSuccess().observe(this, isResetPasswordSuccess -> {
+            if (isResetPasswordSuccess) {
+                Toast.makeText(this, R.string.success, Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
     }
 
     @OnClick(R.id.btnResetPassword)
     public void signUp() {
-        mPresenter.resetPassword(
+        mResetPasswordViewModel.resetPassword(
                 etPassword.getText().toString(),
                 etPasswordConfirm.getText().toString(),
                 etOtp.getText().toString()
         );
-    }
-
-    @Override
-    public void showSuccessMessage() {
-        Toast.makeText(this, R.string.success, Toast.LENGTH_SHORT).show();
     }
 }

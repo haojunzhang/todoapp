@@ -1,4 +1,4 @@
-package com.example.todoapp.ui.base;
+package com.example.todoapp.base;
 
 import android.content.Context;
 import android.view.LayoutInflater;

@@ -5,7 +5,8 @@ import com.example.todoapp.di.module.AppModule;
 import com.example.todoapp.di.module.DataSourceModule;
 import com.example.todoapp.di.module.FragmentModule;
 import com.example.todoapp.di.module.NetworkModule;
-import com.example.todoapp.ui.base.App;
+import com.example.todoapp.di.module.UtilsModule;
+import com.example.todoapp.base.App;
 
 import javax.inject.Singleton;
 
@@ -20,6 +21,7 @@ import dagger.android.AndroidInjectionModule;
                 AppModule.class,
                 NetworkModule.class,
                 DataSourceModule.class,
+                UtilsModule.class,
                 ActivityModule.class,
                 FragmentModule.class
         }

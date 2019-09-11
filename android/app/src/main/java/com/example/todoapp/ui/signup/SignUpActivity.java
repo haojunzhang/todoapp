@@ -6,18 +6,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.todoapp.R;
-import com.example.todoapp.ui.base.BaseActivity;
+import com.example.todoapp.base.BaseActivity;
 import com.example.todoapp.ui.main.MainActivity;
-
-import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class SignUpActivity extends BaseActivity implements SignUpContract.View {
-
-    @Inject
-    SignUpContract.Presenter mPresenter;
+public class SignUpActivity extends BaseActivity<SignUpViewModel> {
 
     @BindView(R.id.etEmail)
     EditText etEmail;
@@ -31,30 +26,38 @@ public class SignUpActivity extends BaseActivity implements SignUpContract.View 
     @BindView(R.id.etOtp)
     EditText etOtp;
 
+    SignUpViewModel mSignUpViewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.sign_up_activity);
         super.onCreate(savedInstanceState);
+
+        initViewModel();
     }
 
-    @Override
-    public void showSendOtpMessage() {
-        Toast.makeText(this, R.string.otp_send, Toast.LENGTH_SHORT).show();
-    }
+    private void initViewModel() {
+        mSignUpViewModel = obtainViewModel(SignUpViewModel.class);
 
-    @Override
-    public void openMainActivity() {
-        startActivity(new Intent(this, MainActivity.class));
-    }
+        observeBaseLiveData(mSignUpViewModel);
 
-    @Override
-    public void finishAllActivity() {
-        finishAffinity();
+        mSignUpViewModel.showSendOtpMessage().observe(this, show -> {
+            if (show) {
+                Toast.makeText(this, R.string.otp_send, Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        mSignUpViewModel.isSignUpSuccess().observe(this, isSignUpSuccess -> {
+            if (isSignUpSuccess) {
+                startActivity(new Intent(this, MainActivity.class));
+                finishAffinity();
+            }
+        });
     }
 
     @OnClick(R.id.btnSignUp)
     public void signUp() {
-        mPresenter.signUp(
+        mSignUpViewModel.signUp(
                 etEmail.getText().toString(),
                 etPassword.getText().toString(),
                 etPasswordConfirm.getText().toString(),
@@ -64,6 +67,6 @@ public class SignUpActivity extends BaseActivity implements SignUpContract.View 
 
     @OnClick(R.id.btnSendOtp)
     public void sendOtp() {
-        mPresenter.sendOtp(etEmail.getText().toString());
+        mSignUpViewModel.sendOtp(etEmail.getText().toString());
     }
 }

@@ -1,23 +1,21 @@
 package com.example.todoapp.ui.main;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
 import android.view.MenuItem;
 
 import com.example.todoapp.R;
-import com.example.todoapp.ui.base.BaseActivity;
+import com.example.todoapp.base.BaseActivity;
+import com.example.todoapp.base.EmptyViewModel;
 import com.example.todoapp.ui.home.HomeFragment;
 import com.example.todoapp.ui.setting.SettingFragment;
-import com.example.todoapp.utils.LogUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity<EmptyViewModel> {
 
     @BindView(R.id.bottomNavView)
     BottomNavigationView bottomNavView;

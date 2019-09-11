@@ -1,32 +1,36 @@
 package com.example.todoapp.ui.resetpassword;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import com.example.todoapp.data.network.todoapp.error.ErrorResponse;
 import com.example.todoapp.data.repository.user.UserDataSource;
 import com.example.todoapp.data.repository.user.UserRepository;
+import com.example.todoapp.base.BaseViewModel;
+import com.example.todoapp.data.network.todoapp.ErrorCodeUtils;
 import com.example.todoapp.utils.StringUtils;
 
-import javax.inject.Inject;
+public class ResetPasswordViewModel extends BaseViewModel {
 
-public class ResetPasswordPresenter implements ResetPasswordContract.Presenter {
-
-    private final ResetPasswordContract.View mView;
     private final UserRepository mUserRepository;
+
+    private final MutableLiveData<Boolean> mIsResetPasswordSuccess = new MutableLiveData<>();
 
     // extra
     private String otpId;
 
-    @Inject
-    public ResetPasswordPresenter(ResetPasswordContract.View mView, UserRepository mUserRepository) {
-        this.mView = mView;
+    public ResetPasswordViewModel(UserRepository mUserRepository) {
         this.mUserRepository = mUserRepository;
     }
 
-    @Override
-    public void setExtra(String otpId) {
+    public LiveData<Boolean> isResetPasswordSuccess(){
+        return mIsResetPasswordSuccess;
+    }
+
+    public void start(String otpId) {
         this.otpId = otpId;
     }
 
-    @Override
     public void resetPassword(String password, String passwordConfirm, String otp) {
         if (StringUtils.isEmpty(password, passwordConfirm, otp)) {
             return;
@@ -36,18 +40,18 @@ public class ResetPasswordPresenter implements ResetPasswordContract.Presenter {
             return;
         }
 
-        mView.showLoadingView();
+        mIsLoading.setValue(true);
         mUserRepository.resetPassword(password, otpId, otp, new UserDataSource.ResetPasswordCallback() {
             @Override
             public void onResetPassword() {
-                mView.dismissLoadingView();
-                mView.showSuccessMessage();
-                mView.finishActivity();
+                mIsLoading.setValue(false);
+                mIsResetPasswordSuccess.setValue(true);
             }
 
             @Override
             public void onError(Throwable throwable, ErrorResponse errorResponse) {
-                mView.handleTodoServiceError(throwable, errorResponse);
+                mIsLoading.setValue(false);
+                mErrorCode.setValue(ErrorCodeUtils.getCode(throwable, errorResponse));
             }
         });
     }

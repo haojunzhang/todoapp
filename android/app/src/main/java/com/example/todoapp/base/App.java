@@ -1,4 +1,4 @@
-package com.example.todoapp.ui.base;
+package com.example.todoapp.base;
 
 import android.app.Activity;
 import android.app.Application;

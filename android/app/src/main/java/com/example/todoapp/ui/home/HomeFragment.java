@@ -6,35 +6,43 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.example.todoapp.R;
 import com.example.todoapp.data.entity.Todo;
+import com.example.todoapp.databinding.HomeFragmentBinding;
 import com.example.todoapp.ui.addtodo.AddTodoActivity;
-import com.example.todoapp.ui.base.BaseFragment;
-import com.example.todoapp.ui.base.BaseRecyclerViewAdapter;
-import com.example.todoapp.ui.base.BaseViewHolder;
-
-import java.util.List;
-
-import javax.inject.Inject;
+import com.example.todoapp.base.BaseFragment;
+import com.example.todoapp.base.BaseRecyclerViewAdapter;
+import com.example.todoapp.base.BaseViewHolder;
+import com.example.todoapp.utils.LogUtils;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class HomeFragment extends BaseFragment implements HomeContract.View {
+public class HomeFragment extends BaseFragment<HomeViewModel, HomeFragmentBinding> {
 
     public static final int RC_ADD_TODO = 0;
-
-    @Inject
-    HomeContract.Presenter mPresenter;
 
     @BindView(R.id.rvTodo)
     RecyclerView rvTodo;
 
+    @BindView(R.id.swipeRefreshLayout)
+    SwipeRefreshLayout swipeRefreshLayout;
+
+    @BindView(R.id.btnAddTodo)
+    FloatingActionButton btnAddTodo;
+
+
+    HomeViewModel mHomeViewModel;
+
+    private LinearLayoutManager layoutManager;
     private TodoAdapter adapter;
 
     public static HomeFragment getInstance() {
@@ -43,17 +51,67 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.home_frgament;
+        return R.layout.home_fragment;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        rvTodo.setLayoutManager(new LinearLayoutManager(getActivity()));
-        rvTodo.setAdapter(adapter = new TodoAdapter(getActivity(), R.layout.todo_item));
+        initViewModel();
 
-        mPresenter.getTodoList();
+        rvTodo.setLayoutManager(layoutManager = new LinearLayoutManager(getActivity()));
+        rvTodo.setAdapter(adapter = new TodoAdapter(getActivity(), R.layout.todo_item));
+        rvTodo.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (layoutManager.findLastVisibleItemPosition() == -1 || adapter.getData().size() == 0) {
+                    return;
+                }
+
+                if (dy > 0) {
+                    btnAddTodo.hide();
+                } else {
+                    btnAddTodo.show();
+                }
+
+                if (layoutManager.findLastVisibleItemPosition() == adapter.getData().size() - 1) {
+                    mHomeViewModel.loadTodoList();
+                }
+            }
+        });
+        swipeRefreshLayout.setOnRefreshListener(() -> mHomeViewModel.loadFirstPageTodoList());
+
+        mHomeViewModel.loadFirstPageTodoList();
+    }
+
+    private void initViewModel() {
+        mHomeViewModel = obtainViewModel(HomeViewModel.class);
+
+        // ViewModel <> layout
+        binding.setVm(mHomeViewModel);
+        binding.setLifecycleOwner(getActivity());
+
+        observeBaseLiveData(mHomeViewModel);
+
+        mHomeViewModel.isLoadingTodoList().observe(this, isLoadingTodoList -> {
+            if (isLoadingTodoList) {
+                adapter.showLoading();
+            } else {
+                adapter.dismissLoading();
+            }
+        });
+
+        mHomeViewModel.getTodoList().observe(this, todoList -> {
+            adapter.addAll(todoList);
+        });
+
+        mHomeViewModel.isClearTodoList().observe(this, isClearTodoList -> {
+            if (isClearTodoList) {
+                adapter.clear();
+            }
+        });
     }
 
     class TodoAdapter extends BaseRecyclerViewAdapter<Todo> {
@@ -85,44 +143,9 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     private void showDeleteAlert(String id) {
         new AlertDialog.Builder(getActivity())
                 .setMessage(R.string.delete_confirm)
-                .setPositiveButton(R.string.confirm, (dialogInterface, i) -> mPresenter.deleteTodo(id))
+                .setPositiveButton(R.string.confirm, (dialogInterface, i) -> mHomeViewModel.deleteTodo(id))
                 .setNegativeButton(R.string.cancel, null)
                 .show();
-    }
-
-    @Override
-    public void showTodoList(List<Todo> list) {
-        adapter.setData(list);
-    }
-
-    @Override
-    public void showEmptyTodoList() {
-        adapter.clear();
-    }
-
-    @Override
-    public void showDeleteSuccessMessage() {
-        toast(R.string.success);
-    }
-
-    @Override
-    public void showDeleteFailMessage() {
-        toast(R.string.fail);
-    }
-
-    @Override
-    public void showLoadingTodoListView() {
-
-    }
-
-    @Override
-    public void dismissLoadingTodoListView() {
-
-    }
-
-    @Override
-    public void openAddTodoActivity() {
-        startActivity(new Intent(getActivity(), AddTodoActivity.class));
     }
 
     @OnClick(R.id.btnAddTodo)
@@ -134,7 +157,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.View {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != Activity.RESULT_OK) return;
-        mPresenter.getTodoList();
+        mHomeViewModel.loadFirstPageTodoList();
     }
 
 }

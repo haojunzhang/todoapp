@@ -1,4 +1,4 @@
-package com.example.todoapp.ui.base;
+package com.example.todoapp.base;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,11 +8,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.example.todoapp.R;
-import com.example.todoapp.data.network.todoapp.error.ErrorResponse;
-import com.example.todoapp.utils.ErrorCodeUtils;
-import com.example.todoapp.utils.LogUtils;
+import com.example.todoapp.mvvm.ViewModelFactory;
 import com.example.todoapp.utils.LogoutUtils;
 
 import javax.inject.Inject;
@@ -23,13 +23,16 @@ import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 
-public class BaseActivity extends AppCompatActivity implements HasSupportFragmentInjector,BaseView {
+public class BaseActivity<T extends ViewModel> extends AppCompatActivity implements HasSupportFragmentInjector {
 
     @Inject
     DispatchingAndroidInjector<Fragment> dispatchingAndroidInjector;
 
     @Inject
     LogoutUtils mLogoutUtils;
+
+    @Inject
+    ViewModelFactory mViewModelFactory;
 
     private AlertDialog loadingDialog;
 
@@ -48,7 +51,28 @@ public class BaseActivity extends AppCompatActivity implements HasSupportFragmen
         return dispatchingAndroidInjector;
     }
 
-    @Override
+    protected T obtainViewModel(Class<T> clazz) {
+        return ViewModelProviders.of(this, mViewModelFactory).get(clazz);
+    }
+
+    protected void observeBaseLiveData(BaseViewModel mBaseViewModel){
+        // is loading
+        mBaseViewModel.isLoading().observe(this, isLoading ->{
+            if (isLoading) {
+                showLoadingView();
+            } else {
+                dismissLoadingView();
+            }
+        });
+
+        // error message
+        mBaseViewModel.getErrorCode().observe(this, errorMessage -> {
+            if (errorMessage != null) {
+                alert(errorMessage);
+            }
+        });
+    }
+
     public void showLoadingView() {
         if (loadingDialog == null) {
             loadingDialog = new AlertDialog.Builder(this)
@@ -61,24 +85,19 @@ public class BaseActivity extends AppCompatActivity implements HasSupportFragmen
         }
     }
 
-    @Override
     public void dismissLoadingView() {
         if (loadingDialog != null && loadingDialog.isShowing() && !isFinishing()) {
             loadingDialog.dismiss();
         }
     }
 
-    @Override
-    public void handleTodoServiceError(Throwable throwable, ErrorResponse errorResponse) {
-        dismissLoadingView();
-        String code = ErrorCodeUtils.getCode(throwable, errorResponse);
-        String message = ErrorCodeUtils.getMessage(this, code, throwable, errorResponse);
-        alert(message);
+    public void handleTodoServiceError(String code) {
+        alert(getErrorMessageFromErrorCode(code));
     }
 
-    @Override
-    public void finishActivity() {
-        finish();
+    protected String getErrorMessageFromErrorCode(String code){
+        //
+        return code;
     }
 
     protected void alert(String text) {
@@ -88,11 +107,11 @@ public class BaseActivity extends AppCompatActivity implements HasSupportFragmen
                 .show();
     }
 
-    protected void toast(int resId){
+    protected void toast(int resId) {
         toast(getString(resId));
     }
 
-    protected void toast(String text){
+    protected void toast(String text) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 

@@ -1,42 +1,47 @@
 package com.example.todoapp.ui.forgotpassword;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import com.example.todoapp.data.network.todoapp.error.ErrorResponse;
 import com.example.todoapp.data.repository.user.UserDataSource;
 import com.example.todoapp.data.repository.user.UserRepository;
+import com.example.todoapp.base.BaseViewModel;
+import com.example.todoapp.data.network.todoapp.ErrorCodeUtils;
 import com.example.todoapp.utils.StringUtils;
 
-import javax.inject.Inject;
+public class ForgotPasswordViewModel extends BaseViewModel {
 
-public class ForgotPasswordPresenter implements ForgotPasswordContract.Presenter {
-
-    private final ForgotPasswordContract.View mView;
     private final UserRepository mUserRepository;
 
-    @Inject
-    public ForgotPasswordPresenter(ForgotPasswordContract.View mView, UserRepository mUserRepository) {
-        this.mView = mView;
+    private final MutableLiveData<String> mOtpId = new MutableLiveData<>();
+
+    public ForgotPasswordViewModel(UserRepository mUserRepository) {
         this.mUserRepository = mUserRepository;
     }
 
-    @Override
+    public LiveData<String> getOtpId(){
+        return mOtpId;
+    }
+
     public void forgotPassword(String email) {
 
-        if (StringUtils.isEmpty(email)){
+        if (StringUtils.isEmpty(email)) {
             return;
         }
 
-        mView.showLoadingView();
+        mIsLoading.setValue(true);
         mUserRepository.sendOtp(email, new UserDataSource.SendOtpCallback() {
             @Override
             public void onSendOtp(String otpId) {
-                mView.dismissLoadingView();
-                mView.openResetPasswordActivity(otpId);
-                mView.finishActivity();
+                mIsLoading.setValue(false);
+                mOtpId.setValue(otpId);
             }
 
             @Override
             public void onError(Throwable throwable, ErrorResponse errorResponse) {
-                mView.handleTodoServiceError(throwable, errorResponse);
+                mIsLoading.setValue(false);
+                mErrorCode.setValue(ErrorCodeUtils.getCode(throwable, errorResponse));
             }
         });
     }
