@@ -10,12 +10,15 @@ import com.example.todoapp.base.BaseViewModel;
 import com.example.todoapp.data.network.todoapp.ErrorCodeUtils;
 import com.example.todoapp.utils.StringUtils;
 
+import javax.inject.Inject;
+
 public class ForgotPasswordViewModel extends BaseViewModel {
 
     private final UserRepository mUserRepository;
 
     private final MutableLiveData<String> mOtpId = new MutableLiveData<>();
 
+    @Inject
     public ForgotPasswordViewModel(UserRepository mUserRepository) {
         this.mUserRepository = mUserRepository;
     }

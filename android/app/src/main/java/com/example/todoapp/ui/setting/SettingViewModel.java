@@ -10,12 +10,15 @@ import com.example.todoapp.data.repository.user.UserRepository;
 import com.example.todoapp.base.BaseViewModel;
 import com.example.todoapp.data.network.todoapp.ErrorCodeUtils;
 
+import javax.inject.Inject;
+
 public class SettingViewModel extends BaseViewModel {
     private final UserRepository mUserRepository;
 
     private final MutableLiveData<String> mEmail= new MutableLiveData<>();
     private final MutableLiveData<Boolean> mIsLogout= new MutableLiveData<>();
 
+    @Inject
     public SettingViewModel(UserRepository mUserRepository) {
         this.mUserRepository = mUserRepository;
     }

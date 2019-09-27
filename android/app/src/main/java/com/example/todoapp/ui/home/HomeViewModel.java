@@ -12,6 +12,8 @@ import com.example.todoapp.data.network.todoapp.ErrorCodeUtils;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class HomeViewModel extends BaseViewModel {
 
     private final TodoRepository mTodoRepository;
@@ -23,6 +25,7 @@ public class HomeViewModel extends BaseViewModel {
     private int page;
     private int maxPage;
 
+    @Inject
     public HomeViewModel(TodoRepository mTodoRepository) {
         this.mTodoRepository = mTodoRepository;
     }

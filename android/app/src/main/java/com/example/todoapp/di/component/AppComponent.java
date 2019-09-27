@@ -7,6 +7,7 @@ import com.example.todoapp.di.module.FragmentModule;
 import com.example.todoapp.di.module.NetworkModule;
 import com.example.todoapp.di.module.UtilsModule;
 import com.example.todoapp.base.App;
+import com.example.todoapp.di.module.ViewModelModule;
 
 import javax.inject.Singleton;
 
@@ -23,7 +24,8 @@ import dagger.android.AndroidInjectionModule;
                 DataSourceModule.class,
                 UtilsModule.class,
                 ActivityModule.class,
-                FragmentModule.class
+                FragmentModule.class,
+                ViewModelModule.class
         }
 )
 public interface AppComponent {

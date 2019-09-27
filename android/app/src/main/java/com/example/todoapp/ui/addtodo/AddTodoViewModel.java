@@ -9,6 +9,8 @@ import com.example.todoapp.data.repository.todo.TodoRepository;
 import com.example.todoapp.base.BaseViewModel;
 import com.example.todoapp.data.network.todoapp.ErrorCodeUtils;
 
+import javax.inject.Inject;
+
 public class AddTodoViewModel extends BaseViewModel {
 
     private final TodoRepository mTodoRepository;
@@ -16,6 +18,7 @@ public class AddTodoViewModel extends BaseViewModel {
     private final MutableLiveData<Boolean> mShowEmptyMessage = new MutableLiveData<>();
     private final MutableLiveData<Boolean> mIsAddTodoSuccess = new MutableLiveData<>();
 
+    @Inject
     public AddTodoViewModel(TodoRepository mTodoRepository) {
         this.mTodoRepository = mTodoRepository;
     }
